@@ -4,9 +4,11 @@ using TESNS.Models.Authentication;
 using TESNS.Models;
 using TESNS.ViewModels;
 using TESNS.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TESNS.Controllers
 {
+    //[Authorize]
     public class PostController: Controller
     {
         private readonly ApplicationDbContext _context;

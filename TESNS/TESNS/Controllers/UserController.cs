@@ -61,7 +61,7 @@ namespace TESNS.Controllers
                 AppUser appUser = new AppUser
                 {
                     UserName = appUserViewModel.UserName,
-                    Email = appUserViewModel.Email
+                    Email = appUserViewModel.Email  
                 };
                 IdentityResult result = await _userManager.CreateAsync(appUser, appUserViewModel.Password);
                 if (result.Succeeded)
@@ -133,7 +133,7 @@ namespace TESNS.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index","Home");
         }
     }
 }
