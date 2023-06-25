@@ -1,0 +1,39 @@
+﻿@model TESNS.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/login.css" />
+
+<body>
+    <div class="wrapper">
+        <header>Login Form</header>
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="field email">
+                <div class="input-area">
+                    <input type="text" placeholder="Email Address" asp-for="Email">
+                    <i class="icon fas fa-envelope"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                <div class="error error-txt">Email can't be blank</div>
+            </div>
+            <div class="field password">
+                <div class="input-area">
+                    <input type="password" placeholder="Password" asp-for="Password">
+                    <i class="icon fas fa-lock"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                <div class="error error-txt">Password can't be blank</div>
+            </div>
+            <div class="pass-txt"><a asp-action="ResetPassword" asp-controller="User">Forgot password?</a></div>
+            <input type="submit" value="Login">
+        </form>
+        <div class="sign-txt">Not yet member? <a asp-action="Register" asp-controller="User">Signup now</a></div>
+    </div>
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
