@@ -6,12 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using TESNS.Models.Authentication;
 using TESNS.Models;
+using TESNS.Interfaces;
+using TESNS.Services;
+using TESNS.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetSection(key: "ConnectionStrings:DefaultConnection").Value));
 builder.Services.AddIdentity<AppUser, AppRole>(e =>
 {

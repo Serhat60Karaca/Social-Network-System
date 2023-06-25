@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Post>
+
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/deneme.css" />
+
+
+<div class="projcard-container">
+    @foreach (var item in Model)
+    {
+        <div class="projcard projcard-blue">
+            <div class="projcard-textbox">
+                <div >@item.Header</div>
+                <div >@item.Text </div>
+                <div><img src="@item.ImagePath" alt="Card image cap"> </div>
+                <div>@item.CommentCount</div>
+                <div >@item.LikeCount</div>
+            </div>
+        </div>
+    }
+</div>

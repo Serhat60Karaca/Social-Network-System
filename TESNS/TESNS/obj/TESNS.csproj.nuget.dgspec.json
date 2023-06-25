@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TalhaTan\\Desktop\\TESNS\\TESNS\\TESNS.csproj": {}
+    "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TalhaTan\\Desktop\\TESNS\\TESNS\\TESNS.csproj": {
+    "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TalhaTan\\Desktop\\TESNS\\TESNS\\TESNS.csproj",
+        "projectUniqueName": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
         "projectName": "TESNS",
-        "projectPath": "C:\\Users\\TalhaTan\\Desktop\\TESNS\\TESNS\\TESNS.csproj",
-        "packagesPath": "C:\\Users\\TalhaTan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TalhaTan\\Desktop\\TESNS\\TESNS\\obj\\",
+        "projectPath": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
+        "packagesPath": "C:\\Users\\Emir\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\TalhaTan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Emir\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -41,6 +45,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.21.0, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.1.0, )"
@@ -83,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
