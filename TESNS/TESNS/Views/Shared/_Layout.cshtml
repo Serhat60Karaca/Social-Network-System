@@ -14,49 +14,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TESNS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TESNS.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TESNS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if(SignInManager.IsSignedIn(User)){
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="CreatePost">Create Post </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="ListPosts">Posts </a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Logout </a>
-                        </li>
-                        }
-                        else 
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
-                        </li>    
-                        }
-                    </ul>
-                </div>
-            </div>
+        <nav>
+            <ul>
+                <li class="logo">SelpakBozkürd</li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="items">
+                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li><a asp-action="MyPosts" asp-controller="Post">My Posts</a></li>
+                        <li><a asp-action="Profile" asp-controller="User">Profile</a></li>
+                    </div>
+                }
+                else
+                {
+                    <div class="items">
+                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li><a asp-action="Login" asp-controller="User">Login</a></li>
+                        <li><a asp-action="Register" asp-controller="User">Register</a></li>
+                    </div>
+                }
+            </ul>
         </nav>
     </header>
     <div class="container">
@@ -65,11 +48,21 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - TESNS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer>
+        <div class="bottom">
+            <ul>
+                <div class="copyright">
+                    <span class="credit">Created By Talha Tan | </span>
+                    <span class="far fa-copyright"></span><span> 2023 All rights reserved.</span>
+                </div>
+                <div class="items">
+                    <li><a>Terms & Conditions</a></li>
+                    <li><a>Privacy Policy</a></li>
+                    <li><a>Contact Us</a></li>
+                </div>
+        </ul>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
