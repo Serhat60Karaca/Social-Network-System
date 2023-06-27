@@ -1,8 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    #text {
+  border-right: 0.15em solid #000; /* Yazının yanındaki imleç efekti için bir çizgi ekler */
+  animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+@@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #000;
+  }
+}
+
+  </style>
+  <div id="typing-effect">
+  <span id="text"></span>
 </div>
+
+<script>
+    const textElement = document.getElementById('text');
+const text = 'WELCOME TO THE SNS social networking system ^-^'; // Yazılacak metin
+
+let index = 0;
+function type() {
+  if (index < text.length) {
+    textElement.textContent += text.charAt(index);
+    index++;
+    setTimeout(type, 50); // Her harf için 100ms bekleme süresi
+  }
+}
+
+type();
+
+</script>

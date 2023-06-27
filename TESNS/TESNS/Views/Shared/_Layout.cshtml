@@ -13,49 +13,212 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TESNS</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--
     <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TESNS.styles.css" asp-append-version="true" />
+    -->
+    <style>
+        .navbar {
+            height: 80px; /* Yeni yükseklik değeri */
+            background-color: #f2f5ff;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 17px; /* Yeni font boyutu değeri */
+        }
+
+        #search-results {
+            display: none;
+            position: absolute;
+            width: calc(100% - 176px); /* Adjust this value based on your search form width */
+            max-height: 200px;
+            overflow-y: auto;
+            list-style-type: none;
+            background-color: #f2f5ff;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border-color: #f2f5ff;
+        }
+
+            #search-results li {
+                padding: 5px;
+            }
+
+        body {
+            background-color: #6260de;
+        }
+
+        .dropdown-caret {
+            position: absolute;
+            top: -8px; /* Adjust this value as needed */
+            left: calc(50% - 4px); /* Adjust this value as needed */
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            rotate: calc(180);
+            border-bottom: 8px solid #f8f9fa; /* Adjust the color as needed */
+            border-top: 8px solid black;
+        }
+
+        #search-results.dropdown-menu {
+            display: block;
+            top: 100%;
+            width: 100%;
+        }
+
+        .custom-div {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        #boddiv{
+            background-color : #6260de;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li class="logo">SelpakBozkürd</li>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <div class="items">
-                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li><a asp-action="MyPosts" asp-controller="Post">My Posts</a></li>
-                        <li><a asp-action="Profile" asp-controller="User">Profile</a></li>
-                    </div>
-                }
-                else
-                {
-                    <div class="items">
-                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li><a asp-action="Login" asp-controller="User">Login</a></li>
-                        <li><a asp-action="Register" asp-controller="User">Register</a></li>
-                    </div>
-                }
-            </ul>
+        <nav class="navbar navbar-expand-lg shadow">
+            <div class="container-fluid">
+                <img class="navbar-brand" style="image-rendering: optimizeSpeed;" href="#" src="\images\_53fffbba-f91a-43cc-b80f-f85141a366f5.png" width="45" height="60">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Explore</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
+                                My Communities
+                            </a>
+                            <ul class="dropdown-menu notifications" id="communities-dropdown">
+                                <li><a class="dropdown-item" href="#">Community 1</a></li>
+                                <li><a class="dropdown-item" href="#">Community 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Community 3</a></li>
+                                <li class="dropdown-caret"></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex mx-auto dropdown" role="search">
+                        <input style="border: solid #1f487e; border-width: 0.2px;width:350px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" oninput="updateSearchResults(this.value)">
+                        <ul id="search-results" class="dropdown-menu"></ul>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="\images\Ekran görüntüsü 2023-06-14 104719.png" alt="Profile Image" width="45" height="45">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item dropdown notifications">
+                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
+                                Notifications
+                            </a>
+                            <ul class="dropdown-menu notifications" id="notifications-dropdown">
+                                <li><a class="dropdown-item" href="#">Notification 1</a></li>
+                                <li><a class="dropdown-item" href="#">Notification 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Notification 3</a></li>
+                                <li class="dropdown-caret"></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Sign Out
+                                <svg style="margin-left: 5px;align-items: center;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer>
+       
+        <script>
+            const searchResults = document.getElementById('search-results');
+            let timeout;
+            function updateSearchResults(value) {
+                clearTimeout(timeout);
+                var x = document.getElementById("search-results");
+                if (value.trim() === '') {
+                    hideDropdown('search-results');
+                    return;
+                }
+
+                // Perform your search logic here and populate the search results list
+                const results = ['Result 1', 'Result 2', 'Result 3']; // Sample results
+
+                let resultsHTML = '';
+                for (let i = 0; i < results.length; i++) {
+                    resultsHTML += `<li><a class="dropdown-item" href="#">${results[i]}</a></li>`;
+                }
+                x.style.display = "block";
+                x.style.borderColor = "black";
+                searchResults.innerHTML = resultsHTML;
+                showDropdown('search-results');
+            }
+
+            function showDropdown(value) {
+                clearTimeout(timeout);
+                const dropdown = document.getElementById(value);
+
+                if (dropdown.children.length > 0) {
+                    dropdown.classList.add('show');
+                }
+            }
+
+            function hideDropdown(value) {
+                timeout = setTimeout(() => {
+                    const dropdown = document.getElementById(value);
+                    dropdown.classList.remove('show');
+                    var x = document.getElementById("search-results");
+                    x.style.borderColor = "#f2f5ff";
+                    searchResults.innerHTML = ''; // Clear the search results when hiding the dropdown
+                }, 200); // Adjust the delay time (in milliseconds) as needed
+            }
+
+            // Event listener to hide search results when clicking outside the search bar
+            document.addEventListener('click', function (event) {
+                const searchForm = document.querySelector('.dropdown');
+                if (!searchForm.contains(event.target) && !searchResults.contains(event.target)) {
+                    hideDropdown('search-results');
+                }
+            });
+        </script>
+    </header>
+
+            <div class="container-fluid" id="boddiv">
+        <div class="row" style="height: 450px; color: #f4f7f5">
+                    <div class="col-3" style="border-right: solid gray;border-width:1px;">Bir şeyler</div>
+            <div class="col-6 d-flex align-items-center justify-content-center">@RenderBody()</div>
+                    <div class="col-3" style="border-left: solid gray;border-width:1px;">Diğer şeyler</div>
+                </div>
+            </div>
+
+    <footer style="background-color: #34344a; margin:0; color: white;padding-top: 50px; padding-bottom:50px;">
         <div class="bottom">
-            <ul>
-                <div class="copyright">
+            <ul class="d-flex flex-column flex-wrap justify-content-center list-unstyled">
+                <div class="copyright d-flex flex-row flex-wrap justify-content-center">
                     <span class="credit">Created By Talha Tan | </span>
                     <span class="far fa-copyright"></span><span> 2023 All rights reserved.</span>
                 </div>
-                <div class="items">
+                <div class="items d-flex flex-row flex-wrap justify-content-around">
                     <li><a>Terms & Conditions</a></li>
                     <li><a>Privacy Policy</a></li>
                     <li><a>Contact Us</a></li>

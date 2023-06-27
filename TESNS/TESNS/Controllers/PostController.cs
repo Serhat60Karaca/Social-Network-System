@@ -35,13 +35,18 @@ namespace TESNS.Controllers
             {
                 Header = postVM.Header,
                 Text = postVM.Text,
-                ImagePath = result.Url.ToString(),
+                //ImagePath = result.Url.ToString(),
                 Video = postVM.Video,
                 PublishDate = DateTime.Now.ToUniversalTime(),
                 EditedDate = DateTime.Now.ToUniversalTime(),
                 CommentCount = 0,
                 LikeCount = 0
             };
+            if(postVM.ImagePath != null)
+            {
+                newPost.ImagePath = result.Url.ToString();
+            }
+            
             var currentUser = await _userManager.GetUserAsync(User);
             newPost.UserId = currentUser.Id;
             newPost.CommunityId = 1;
