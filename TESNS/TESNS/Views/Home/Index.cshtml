@@ -2,48 +2,246 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
-    #text {
-  border-right: 0.15em solid #000; /* Yazının yanındaki imleç efekti için bir çizgi ekler */
-  animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
-}
+
+    #user-content {
+        display: block;
+        min-width: 100%;
+    }
+
+    .note-card {
+        position: relative;
+        max-width: 100%;
+        width: 100%;
+        background-color: yellow;
+        border-radius: 0;
+        padding: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 600px) {
+        .note-card {
+            width: 100%;
+        }
+    }
 
 
-@@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
+    .note-card::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.2);
+        clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
 
-@@keyframes blink-caret {
-  from, to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: #000;
-  }
-}
 
-  </style>
-  <div id="typing-effect">
-  <span id="text"></span>
+
+    .note-card p {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+
+    .note-card .send-button {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+        .note-card .send-button button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    .note-card .date {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .note-card .feedback {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+        .note-card .feedback button {
+            background-color: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+    .note-card .image-container {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+    }
+
+        .note-card .image-container img {
+            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+</style>
+
+
+<div id="user-content" style="margin:0px;">
+    <div class="note-card">
+        <div> Yeni Çıkan Kitaplar Arasında Önerileriniz Neler? </div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here">Okuma tutkunları olarak, son zamanlarda piyasaya çıkan kitaplar arasında önerilerimizi paylaşalım. Hangi kitapların sizi etkilediğini, hangi yazarların yeni eserleriyle dikkat çektiğini tartışabiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
+    <div class="note-card">
+        <div> Siyasette Gençlerin Rolü ve Katılımı </div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here">Siyasette gençlerin etkin rol oynaması ve katılımının önemini tartışabileceğimiz bir başlık. Gençlerin politik süreçlere nasıl daha fazla dahil olabileceği, gençlerin siyasi kararlarda etkili olmasını sağlayacak stratejiler ve gençlerin siyasi bilinçliliklerini artırmaya yönelik çalışmaları ele alabiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
+    <div class="note-card">
+        <div>Başlık 1: "Gezegenimizin Geleceği İçin Neler Yapabiliriz?</div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here">Bu forum başlığı altında, çevre sorunları ve sürdürülebilirlik konuları üzerine fikir alışverişinde bulunabilir, gezegenimizin geleceği için nasıl daha iyi bir çevresel eylemde bulunabileceğimize dair önerilerde bulunabiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
+    <div class="note-card">
+        <div> Yeni Başlayanlar İçin Programlama Dilleri Hangileri? </div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here">Programlamaya yeni başlayanlar için en uygun programlama dilleri hakkında tartışabileceğimiz bir konu. Hangi dilin başlangıç için daha kolay olduğunu, hangi dilin daha yaygın kullanıldığını ve hangi dilin hangi projeler için en uygun olduğunu keşfedebiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
+    <div class="note-card">
+        <div> 2023 Yılında En Çok Beklenen Filmler Neler? </div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here"> Sinemaseverler olarak, 2023 yılında vizyona girecek en heyecan verici filmler hakkında konuşabilir ve beklentilerimizi paylaşabiliriz. Hangi filmlerin gişe rekorları kırması ve izleyiciler tarafından en çok beklenen yapımlar olduğu hakkında tahminlerde bulunabiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
+    <div class="note-card">
+        <div> Dijital Pazarlama İpuçları ve Stratejileri Paylaşalım </div>
+        <div class="date">June 26, 2023</div>
+        <p oninput="autoResize(this)" placeholder="Enter text here">Dijital pazarlama konusunda deneyimi olanlar olarak, dijital pazarlama alanında başarılı olmak için kullanabileceğimiz ipuçlarını ve stratejileri paylaşalım. Sosyal medya, SEO, içerik pazarlama gibi konuları ele alabiliriz.</p>
+        <!--
+        <div class="send-button">
+            <button type="submit">Send</button>
+        </div>
+        -->
+        <!--
+        <div class="image-container">
+            <img src="path/to/your/image.jpg">
+        </div>
+        -->
+        <div class="feedback">
+            <button>Like</button>
+            <button>Comment</button>
+            <span>0 <i class="bi bi-heart-fill"></i> </span>
+            <span>0 <i class="bi bi-chat-left-fill"></i></span>
+        </div>
+
+    </div>
 </div>
-
 <script>
-    const textElement = document.getElementById('text');
-const text = 'WELCOME TO THE SNS social networking system ^-^'; // Yazılacak metin
 
-let index = 0;
-function type() {
-  if (index < text.length) {
-    textElement.textContent += text.charAt(index);
-    index++;
-    setTimeout(type, 50); // Her harf için 100ms bekleme süresi
-  }
-}
-
-type();
-
+    function autoResize(p) {
+        p.style.height = 'auto';
+        p.style.height = p.scrollHeight + 'px';
+    }
 </script>

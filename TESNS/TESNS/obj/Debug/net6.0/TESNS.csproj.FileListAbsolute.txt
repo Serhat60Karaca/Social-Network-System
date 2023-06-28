@@ -1216,3 +1216,4 @@ C:\Users\lenovo\Desktop\Social Network System (SNS)\Social-Network-System\TESNS\
 C:\Users\lenovo\Desktop\Social Network System (SNS)\Social-Network-System\TESNS\TESNS\obj\Debug\net6.0\TESNS.pdb
 C:\Users\lenovo\Desktop\Social Network System (SNS)\Social-Network-System\TESNS\TESNS\obj\Debug\net6.0\TESNS.genruntimeconfig.cache
 C:\Users\lenovo\Desktop\Social Network System (SNS)\Social-Network-System\TESNS\TESNS\obj\Debug\net6.0\ref\TESNS.dll
+C:\Users\lenovo\Desktop\Social Network System (SNS)\Social-Network-System\TESNS\TESNS\bin\Debug\net6.0\libman.json

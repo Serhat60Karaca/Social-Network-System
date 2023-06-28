@@ -3,10 +3,8 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
-
 @{
     var currentUser = await UserManager.GetUserAsync(User);
-    
 }
 
 <!DOCTYPE html>
@@ -15,14 +13,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TESNS</title>
-    
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <!--
     <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TESNS.styles.css" asp-append-version="true" />
     -->
     <style>
+
         .navbar {
             height: 80px; /* Yeni yükseklik değeri */
             background-color: #f2f5ff;
@@ -80,8 +80,56 @@
             justify-content: space-between;
             padding: 10px;
         }
-        #boddiv{
-            background-color : #6260de;
+
+        #boddiv {
+            background-color: #6260de;
+        }
+
+        .nfooter ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0
+        }
+
+        .nfooter li {
+            padding: 4px;
+            color: #C5CAE9;
+        }
+
+        .nfooter ul > li:hover {
+            color: #957bda;
+            cursor: pointer
+        }
+
+        .nfooter hr {
+            border-width: 3px
+        }
+
+        .nfooter .card {
+            padding: 2% 7%
+        }
+
+        .nfooter .social > i {
+            padding: 1%;
+            font-size: 15px
+        }
+
+            .nfooter .social > i:hover {
+                color: #957bda;
+                cursor: pointer
+            }
+
+        .nfooter .policy > div {
+            padding: 4px
+        }
+
+        .nfooter .heading {
+            font-family: 'Titillium Web', sans-serif;
+            color: black
+        }
+
+        .nfooter .divider {
+            border-top: 2px solid
         }
     </style>
 </head>
@@ -89,24 +137,23 @@
     <header>
         <nav class="navbar navbar-expand-lg shadow">
             <div class="container-fluid">
-                <img class="navbar-brand" style="image-rendering: optimizeSpeed;" href="#" src="\images\_53fffbba-f91a-43cc-b80f-f85141a366f5.png" width="45" height="60">
+                <img class="navbar-brand" style="image-rendering: optimizeSpeed;" href="#" src="\images\Logo.png" width="75" height="85">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" asp-action="Index" asp-controller="Home">Home</a>
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Explore</a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User)){
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
                                 My Communities
                             </a>
-                            <ul class="dropdown-menu notifications" id="communities-dropdown">
+                            <ul class="dropdown-menu notifications" id="communities-dropdown" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
                                 <li><a class="dropdown-item" href="#">Community 1</a></li>
                                 <li><a class="dropdown-item" href="#">Community 2</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -114,31 +161,23 @@
                                 <li class="dropdown-caret"></li>
                             </ul>
                         </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="CreatePost" asp-controller="Post">Create a Post</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="ListPosts" asp-controller="Post">My Posts</a>
-                            </li>
-                        }
                     </ul>
                     <form class="d-flex mx-auto dropdown" role="search">
                         <input style="border: solid #1f487e; border-width: 0.2px;width:350px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" oninput="updateSearchResults(this.value)">
                         <ul id="search-results" class="dropdown-menu"></ul>
                     </form>
                     <ul class="navbar-nav ml-auto">
-                        @if(SignInManager.IsSignedIn(User)){
                         <li class="nav-item">
-                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45">
+                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="\images\default_male_avatar.jpg" alt="Profile Image" width="45" height="45">
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="ProfileDetail" asp-controller="Profile">Profile</a>
+                            <a class="nav-link" href="#">Serhat Karaca</a>
                         </li>
                         <li class="nav-item dropdown notifications">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
                                 Notifications
                             </a>
-                            <ul class="dropdown-menu notifications" id="notifications-dropdown">
+                            <ul class="dropdown-menu notifications" id="notifications-dropdown" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
                                 <li><a class="dropdown-item" href="#">Notification 1</a></li>
                                 <li><a class="dropdown-item" href="#">Notification 2</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -147,7 +186,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="LogOut" asp-controller="User">
+                            <a class="nav-link" href="#">
                                 Sign Out
                                 <svg style="margin-left: 5px;align-items: center;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
@@ -155,21 +194,12 @@
                                 </svg>
                             </a>
                         </li>
-                        }
-                        else{
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="Login" asp-controller="User">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="Register" asp-controller="User">Register</a>
-                        </li>
-                        }
                     </ul>
                 </div>
             </div>
         </nav>
 
-       
+
         <script>
             const searchResults = document.getElementById('search-results');
             let timeout;
@@ -223,27 +253,85 @@
         </script>
     </header>
 
-            <div class="container-fluid" id="boddiv">
-        <div class="row" style="height: 450px; color: #f4f7f5">
-                    <div class="col-3" style="border-right: solid gray;border-width:1px;">Bir şeyler</div>
-            <div class="col-6 d-flex align-items-center justify-content-center">@RenderBody()</div>
-                    <div class="col-3" style="border-left: solid gray;border-width:1px;">Diğer şeyler</div>
+    <div class="container-fluid" id="boddiv">
+        <div class="row" style="height: auto; padding-top:10px;">
+            <div class="col-3 d-flex justify-content-center" style="border-right: solid gray;border-width:1px;">Here will be about bout User</div>
+            <div class="col-6 d-flex align-items-center justify-content-center">
+                <div id="typing-effect">
+                    <span id="text"></span>
+                </div> @RenderBody()
+            </div>
+            <div class="col-3 d-flex justify-content-center" style="border-left: solid gray;border-width:1px;">Community and User Suggesstions will be here</div>
+        </div>
+    </div>
+
+    <footer style="background-color: #34344a; margin:0; color: black;">
+        <div class="container-fluid mt-5 nfooter" style="padding:0px;">
+            <div class="card bg-white" style="margin:0;">
+                <div class="row mb-4">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="footer-text pull-left">
+                            <div class="d-flex">
+                                <img class="mr-2 px-3" src="/images/Logo.png" width="150" height="120">
+                                <h1 style="color: #ef7e6b;">SMILEY</h1>
+                            </div>
+                            <p class="card-text" style="display:inline;">
+                                <h4 style="color: #ef7e6b; display:inline;">SMILEY</h4>
+                            <p style="display:inline;">is a platform that facilitates users in making connections, sharing posts, and engaging with others. Our goal is to support people in communicating, sharing information, and exchanging ideas. By joining our application, you can meet new people, discover content that matches your interests, and expand your social network. It is important to adhere to the terms of use and community guidelines. If you have any questions or feedback, feel free to contact us. Enjoy using it!</p>
+                            </p>
+                            <div class="social mt-2 mb-3"> <i class="fa fa-facebook-official fa-lg"></i> <i class="fa fa-instagram fa-lg"></i> <i class="fa fa-twitter fa-lg"></i> <i class="fa fa-linkedin-square fa-lg"></i> <i class="fa fa-facebook"></i> </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <h5 class="heading">Services</h5>
+                        <ul>
+                            <!--
+                            <li>IT Consulting</li>
+                            <li>Development</li>
+                            <li>Cloud</li>
+                            <li>Support</li>
+                            -->
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <h5 class="heading">Advertisement</h5>
+                        <ul class="card-text">
+                            <!--
+                            <li>Finance</li>
+                            <li>Public Sector</li>
+                            <li>Smart Office</li>
+                            <li>Retail</li>
+                            -->
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <h5 class="heading">SMILEY</h5>
+                        <ul class="card-text">
+                            <li>About Us</li>
+                            <li>Blog</li>
+                            <li>Contact</li>
+                            <li>Join Us</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="divider mb-4"> </div>
+                <div class="row" style="font-size:10px;">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="pull-left">
+                            <p><i class="fa fa-copyright"></i> 2023 SMILEY</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="pull-right mr-4 d-flex policy">
+                            <div>Terms of Use</div>
+                            <div>Privacy Policy</div>
+                            <div>Cookie Policy</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-    <footer style="background-color: #34344a; margin:0; color: white;padding-top: 50px; padding-bottom:50px;">
-        <div class="bottom">
-            <ul class="d-flex flex-column flex-wrap justify-content-center list-unstyled">
-                <div class="copyright d-flex flex-row flex-wrap justify-content-center">
-                    <span class="credit">Created By Talha Tan | </span>
-                    <span class="far fa-copyright"></span><span> 2023 All rights reserved.</span>
-                </div>
-                <div class="items d-flex flex-row flex-wrap justify-content-around">
-                    <li><a>Terms & Conditions</a></li>
-                    <li><a>Privacy Policy</a></li>
-                    <li><a>Contact Us</a></li>
-                </div>
-        </ul>
+        </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
