@@ -5,6 +5,7 @@ using TESNS.Models;
 using TESNS.ViewModels;
 using TESNS.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace TESNS.Controllers
 {
@@ -13,13 +14,15 @@ namespace TESNS.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IPhotoService _photoService;
 
-        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService)
+        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService,SignInManager<AppUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _photoService = photoService;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -49,7 +52,7 @@ namespace TESNS.Controllers
             
             var currentUser = await _userManager.GetUserAsync(User);
             newPost.UserId = currentUser.Id;
-            newPost.CommunityId = 1;
+            
             //newPost.CommunityId = _context.Communities.FirstOrDefault().Id;
 
             _context.Posts.Add(newPost);
@@ -58,9 +61,10 @@ namespace TESNS.Controllers
             return RedirectToAction("ListPosts", "Post");
         }
 
-        public IActionResult ListPosts()
+        public async Task<IActionResult> ListPosts()
         {
-            var posts = _context.Posts;
+            var user = await _userManager.GetUserAsync(User);
+            var posts = await _context.Posts.Where(x => x.UserId == user.Id).ToListAsync();
             return View(posts);
         }
 

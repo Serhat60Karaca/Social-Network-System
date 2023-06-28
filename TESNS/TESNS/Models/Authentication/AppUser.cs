@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using TESNS.Data.Enum;
 
 namespace TESNS.Models.Authentication
 {
@@ -7,6 +8,10 @@ namespace TESNS.Models.Authentication
     {
         public string? PasswordResetToken { get; set; }
         public string? Memleket { get; set; }
-        public bool? Cinsiyet { get; set; }  
+        public Gender Cinsiyet { get; set; }
+        public string? BirthDate { get; set; }
+        public string? ProfilePhoto { get; set; }
+
+        
     }
 }

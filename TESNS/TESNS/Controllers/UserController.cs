@@ -12,9 +12,9 @@ namespace TESNS.Controllers
 {
     public class UserController:Controller
     {
-        readonly UserManager<AppUser> _userManager;
-        readonly SignInManager<AppUser> _signInManager;
-        readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,ApplicationDbContext context)
         {
             _userManager = userManager;
@@ -56,19 +56,33 @@ namespace TESNS.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(AppUserViewModel appUserViewModel)
         {
+            var user = await _userManager.FindByEmailAsync(appUserViewModel.Email);
+            if (user != null)
+            {
+                TempData["Error"] = "This email address is already in use";
+                return View(appUserViewModel);
+            }
             if (ModelState.IsValid)
             {
                 AppUser appUser = new AppUser
                 {
                     UserName = appUserViewModel.UserName,
-                    Email = appUserViewModel.Email  
+                    Email = appUserViewModel.Email,
+                    PhoneNumber= appUserViewModel.PhoneNumber,
+                    BirthDate = appUserViewModel.BirthDate,
+                    Cinsiyet = appUserViewModel.Gender
                 };
+                if (appUser.ProfilePhoto == null)
+                {
+                    appUser.ProfilePhoto = "http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg";
+                }
                 IdentityResult result = await _userManager.CreateAsync(appUser, appUserViewModel.Password);
                 if (result.Succeeded)
                     return RedirectToAction("Login","User");
                 else
                     result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
             }
+            
             return View();
         }
         [HttpGet]

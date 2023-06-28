@@ -4,20 +4,11 @@ using TESNS.Data.Enum;
 
 namespace TESNS.ViewModels
 {
-    public class AppUserViewModel
+    public class EditProfileViewModel
     {
         [Display(Name = "Username")]
         [Required(ErrorMessage = "Username is required")]
         public string UserName { get; set; }
-
-        [Display(Name = "Email")]
-        [Required(ErrorMessage = "Email is required")]
-        public string Email { get; set; }
-
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Password is required")]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
 
         [Display(Name = "Phone Number")]
         [Required(ErrorMessage = "Phone number is required")]
@@ -30,5 +21,7 @@ namespace TESNS.ViewModels
         [Display(Name = "Gender")]
         [Required(ErrorMessage = "Gender is required")]
         public Gender Gender { get; set; }
+        public string? ProfilePhotoUrl { get; set; }
+        public IFormFile? ProfilePhoto { get; set; }
     }
 }

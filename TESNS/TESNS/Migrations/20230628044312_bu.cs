@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TESNS.Migrations
 {
-    public partial class init : Migration
+    public partial class bu : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,9 @@ namespace TESNS.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PasswordResetToken = table.Column<string>(type: "text", nullable: true),
                     Memleket = table.Column<string>(type: "text", nullable: true),
-                    Cinsiyet = table.Column<bool>(type: "boolean", nullable: true),
+                    Cinsiyet = table.Column<int>(type: "integer", nullable: false),
+                    BirthDate = table.Column<string>(type: "text", nullable: true),
+                    ProfilePhoto = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -217,7 +219,7 @@ namespace TESNS.Migrations
                     CommentCount = table.Column<int>(type: "integer", nullable: false),
                     LikeCount = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    CommunityId = table.Column<int>(type: "integer", nullable: false)
+                    CommunityId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -232,8 +234,7 @@ namespace TESNS.Migrations
                         name: "FK_Posts_Communities_CommunityId",
                         column: x => x.CommunityId,
                         principalTable: "Communities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

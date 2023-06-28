@@ -168,8 +168,11 @@ namespace TESNS.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<bool?>("Cinsiyet")
-                        .HasColumnType("boolean");
+                    b.Property<string>("BirthDate")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Cinsiyet")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -210,6 +213,9 @@ namespace TESNS.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ProfilePhoto")
+                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -336,7 +342,7 @@ namespace TESNS.Migrations
                     b.Property<int>("CommentCount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CommunityId")
+                    b.Property<int?>("CommunityId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("EditedDate")
@@ -476,9 +482,7 @@ namespace TESNS.Migrations
                 {
                     b.HasOne("TESNS.Models.Community", "Community")
                         .WithMany("Posts")
-                        .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CommunityId");
 
                     b.HasOne("TESNS.Models.Authentication.AppUser", "User")
                         .WithMany()

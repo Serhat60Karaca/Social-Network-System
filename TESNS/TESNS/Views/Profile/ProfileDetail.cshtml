@@ -1,0 +1,55 @@
+﻿@model TESNS.ViewModels.UserDetailViewModel
+
+@{
+    ViewData["Title"] = "ProfileDetail";
+    Layout = null;
+}
+
+<h1>ProfileDetail</h1>
+<div>
+    @Html.ActionLink("Edit","EditProfile" /*new { id = Model.PrimaryKey  }*/)
+    <a asp-action="Index">Back to List</a>
+</div>
+<div>
+    <h4>UserDetailViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProfilePhoto)
+        </dt>
+        <dd class = "col-sm-10">
+            <div><img src="@Model.ProfilePhoto" alt="Card image cap"> </div>
+        </dd>
+    </dl>
+</div>
+
