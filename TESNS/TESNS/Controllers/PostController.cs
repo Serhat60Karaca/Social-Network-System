@@ -51,7 +51,13 @@ namespace TESNS.Controllers
             }
             
             var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                ViewData["LoginError"] = "You should login to publis a post";
+                return RedirectToAction("Login", "User");
+            }
             newPost.UserId = currentUser.Id;
+            
             
             //newPost.CommunityId = _context.Communities.FirstOrDefault().Id;
 

@@ -1,5 +1,10 @@
-﻿@model CreatePostViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model CreatePostViewModel
+@inject ApplicationDbContext _context
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
 @{
+    var currentUser = await UserManager.GetUserAsync(User);
     ViewData["Title"] = "Home Page";
 }
 <style>
@@ -96,6 +101,9 @@
     .note-card .image-container {
         text-align: center; /* Görseli merkeze hizala */
         margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom:20px;
+        width: %80;
+        height: %55;
     }
 
         .note-card .image-container img {
@@ -107,7 +115,7 @@
 
 <div id="user-content" style="margin:0px;">
     <div>
-    <form method="post" asp-action="CreatePost" enctype="multipart/form-data">
+    <form method="post" asp-action="CreatePost" asp-controller="Post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="margin-bottom:10px;">
             <input asp-for="Text" class="form-control" placeholder="share your opinion"/>
@@ -122,6 +130,34 @@
         </div>
     </form>
     </div>
+    @foreach(var item in _context.Posts)
+    {
+        <div class="note-card">
+            <div> @item.Text </div>
+            <div class="date">@item.PublishDate</div>
+            <div class="image-container">
+                <img src="@item.ImagePath">
+            </div>
+            <!--<p oninput="autoResize(this)" placeholder="Enter text here">Okuma tutkunları olarak, son zamanlarda piyasaya çıkan kitaplar arasında önerilerimizi paylaşalım. Hangi kitapların sizi etkilediğini, hangi yazarların yeni eserleriyle dikkat çektiğini tartışabiliriz.</p>-->
+            <!--
+            <div class="send-button">
+                <button type="submit">Send</button>
+            </div>
+            -->
+            <!--
+            <div class="image-container">
+                <img src="path/to/your/image.jpg">
+            </div>
+            -->
+            <div class="feedback">
+                <button>Like</button>
+                <button>Comment</button>
+                <span>@item.LikeCount <i class="bi bi-heart-fill"></i> </span>
+                <span>@item.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+            </div>
+
+        </div>
+    }
     <div class="note-card">
         <div> Yeni Çıkan Kitaplar Arasında Önerileriniz Neler? </div>
         <div class="date">June 26, 2023</div>
