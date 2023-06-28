@@ -58,7 +58,7 @@ namespace TESNS.Controllers
             _context.Posts.Add(newPost);
             _context.SaveChanges();
 
-            return RedirectToAction("ListPosts", "Post");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> ListPosts()

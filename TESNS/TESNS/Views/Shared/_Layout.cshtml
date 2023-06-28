@@ -144,11 +144,12 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" asp-action="Index" asp-controller="Home" >Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Explore</a>
                         </li>
+                        @if(SignInManager.IsSignedIn(User)){
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
                                 My Communities
@@ -161,17 +162,25 @@
                                 <li class="dropdown-caret"></li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="CreatePost" asp-controller="Post">Crate a Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="ListPosts" asp-controller="Post">My Posts</a>
+                        </li>
+                        }
                     </ul>
                     <form class="d-flex mx-auto dropdown" role="search">
                         <input style="border: solid #1f487e; border-width: 0.2px;width:350px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" oninput="updateSearchResults(this.value)">
                         <ul id="search-results" class="dropdown-menu"></ul>
                     </form>
                     <ul class="navbar-nav ml-auto">
+                        @if(SignInManager.IsSignedIn(User)){
                         <li class="nav-item">
-                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="\images\default_male_avatar.jpg" alt="Profile Image" width="45" height="45">
+                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45">
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Serhat Karaca</a>
+                            <a class="nav-link" asp-action="ProfileDetail" asp-controller="Profile"> @currentUser.UserName </a>
                         </li>
                         <li class="nav-item dropdown notifications">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
@@ -186,7 +195,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" asp-action="LogOut" asp-controller="User">
                                 Sign Out
                                 <svg style="margin-left: 5px;align-items: center;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
@@ -194,6 +203,16 @@
                                 </svg>
                             </a>
                         </li>
+                        }
+                        else 
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Login" asp-controller="User">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Register" asp-controller="User">Register</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
