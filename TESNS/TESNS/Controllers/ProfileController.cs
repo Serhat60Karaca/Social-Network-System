@@ -44,6 +44,7 @@ namespace TESNS.Controllers
         //[Authorize]
         public async Task<IActionResult> EditProfile() 
         {
+            
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return View();
             if (user.ProfilePhoto == null) 
@@ -67,6 +68,7 @@ namespace TESNS.Controllers
         //[Authorize]
         public async Task<IActionResult> EditProfile(EditProfileViewModel editProfileVM)
         {
+            var currentPhoto = await _userManager.GetUserAsync(User);
             if (!ModelState.IsValid) 
             {
                 ModelState.AddModelError("", "Failed to edit profile");
@@ -98,6 +100,10 @@ namespace TESNS.Controllers
             user.PhoneNumber = editProfileVM.PhoneNumber;
             user.BirthDate = editProfileVM.BirthDate;
             user.Cinsiyet = editProfileVM.Gender;
+            if (editProfileVM.ProfilePhotoUrl == null) 
+            {
+                editProfileVM.ProfilePhotoUrl = currentPhoto.ProfilePhoto;
+            }
             user.ProfilePhoto = editProfileVM.ProfilePhotoUrl;
             await _userManager.UpdateAsync(user);
            
