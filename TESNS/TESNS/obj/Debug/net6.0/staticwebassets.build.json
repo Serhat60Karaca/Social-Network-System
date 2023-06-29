@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UpRICJw7AW/bNKkOL8MHR7DeloWrf2KspgrHZDNAS8U=",
+  "Hash": "gjdK4NkIfIaproYtyi0reRjOQcHNU8Lw4rVEGugXpvs=",
   "Source": "TESNS",
   "BasePath": "_content/TESNS",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\detailprofile.css"
+    },
+    {
+      "Identity": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\wwwroot\\css\\detailprofile2.css",
+      "SourceId": "TESNS",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\wwwroot\\",
+      "BasePath": "_content/TESNS",
+      "RelativePath": "css/detailprofile2.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\detailprofile2.css"
     },
     {
       "Identity": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\wwwroot\\css\\login.css",

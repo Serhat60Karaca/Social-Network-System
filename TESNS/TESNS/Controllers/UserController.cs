@@ -66,6 +66,8 @@ namespace TESNS.Controllers
             {
                 AppUser appUser = new AppUser
                 {
+                    //FirstName = appUserViewModel.FirstName,
+                    //LastName = appUserViewModel.LastName,
                     UserName = appUserViewModel.UserName,
                     Email = appUserViewModel.Email,
                     PhoneNumber= appUserViewModel.PhoneNumber,

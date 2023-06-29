@@ -29,6 +29,8 @@ namespace TESNS.Controllers
             if (user == null) return View();
             var userDetailVM = new UserDetailViewModel()
             {
+                //FirstName=user.FirstName,
+                //LastName=user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -50,6 +52,8 @@ namespace TESNS.Controllers
             }
             var userEditVM = new EditProfileViewModel()
             {
+                //FirstName=user.FirstName,
+                //LastName= user.LastName,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
@@ -88,7 +92,8 @@ namespace TESNS.Controllers
                 editProfileVM.ProfilePhotoUrl = user.ProfilePhoto;
                 await _userManager.UpdateAsync(user);
             }
-
+            //user.FirstName = editProfileVM.FirstName;
+            //user.LastName = editProfileVM.LastName;
             user.UserName = editProfileVM.UserName;
             user.PhoneNumber = editProfileVM.PhoneNumber;
             user.BirthDate = editProfileVM.BirthDate;
