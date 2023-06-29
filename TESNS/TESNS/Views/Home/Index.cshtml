@@ -1,4 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using TESNS.Models
+@using TESNS.Models.Authentication
+@using TESNS.ViewModels
 @model CreatePostViewModel
 @inject ApplicationDbContext _context
 @inject UserManager<AppUser> UserManager
@@ -102,14 +105,37 @@
         text-align: center; /* Görseli merkeze hizala */
         margin-top: 20px; /* p ile arasında boşluk bırak */
         margin-bottom:20px;
-        width: %80;
-        height: %55;
+        width: %60;
+        height: %35;
     }
 
         .note-card .image-container img {
             max-width: 100%; /* Görselin maksimum genişliğini ayarla */
             height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
         }
+
+   
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-picture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .username {
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+
+
+
 </style>
 
 
@@ -130,9 +156,20 @@
         </div>
     </form>
     </div>
-    @foreach(var item in _context.Posts)
+    @{
+        var posts = _context.Posts.ToList(); // Retrieve posts from the database before the loop
+    }
+
+    @foreach(var item in posts.OrderByDescending(i => i.PublishDate))
     {
+        var user = _context.Users.FirstOrDefault(u => u.Id == item.UserId);
+        var profilePhoto = user?.ProfilePhoto;
+        var userName = user?.UserName;
         <div class="note-card">
+            <div class="user-profile">
+                <img class="profile-picture" src="@profilePhoto">
+                <div class="username">@userName</div>
+            </div>
             <div> @item.Text </div>
             <div class="date">@item.PublishDate</div>
             <div class="image-container">

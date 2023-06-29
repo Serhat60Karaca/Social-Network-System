@@ -33,7 +33,7 @@ namespace TESNS.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost(CreatePostViewModel postVM)
         {
-            var result = await _photoService.AddPhotoAsync(postVM.ImagePath);
+            
             Post newPost = new Post()
             {
                 Header = postVM.Header,
@@ -47,6 +47,7 @@ namespace TESNS.Controllers
             };
             if(postVM.ImagePath != null)
             {
+                var result = await _photoService.AddPhotoAsync(postVM.ImagePath);
                 newPost.ImagePath = result.Url.ToString();
             }
             

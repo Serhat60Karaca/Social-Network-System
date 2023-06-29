@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {}
+    "C:\\Users\\lenovo\\Desktop\\Social Network System (SNS)\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {
+    "C:\\Users\\lenovo\\Desktop\\Social Network System (SNS)\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
+        "projectUniqueName": "C:\\Users\\lenovo\\Desktop\\Social Network System (SNS)\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
         "projectName": "TESNS",
-        "projectPath": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
-        "packagesPath": "C:\\Users\\Emir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Emir\\Desktop\\FORD İÇİN\\rabbitmq\\gitproject\\Social-Network-System\\TESNS\\TESNS\\obj\\",
+        "projectPath": "C:\\Users\\lenovo\\Desktop\\Social Network System (SNS)\\Social-Network-System\\TESNS\\TESNS\\TESNS.csproj",
+        "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lenovo\\Desktop\\Social Network System (SNS)\\Social-Network-System\\TESNS\\TESNS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Emir\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
