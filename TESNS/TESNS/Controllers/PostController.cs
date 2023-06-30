@@ -97,5 +97,26 @@ namespace TESNS.Controllers
 
             return RedirectToAction("CreatePost", "Post");
         }*/
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id != post.UserId)
+            {
+                return Unauthorized();
+            }
+
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

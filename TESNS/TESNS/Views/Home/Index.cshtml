@@ -63,14 +63,17 @@
 
     .note-card .send-button {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         margin-top: 10px;
+        align-items:center;
+        margin-left:5%;
+
     }
 
         .note-card .send-button button {
             padding: 10px 20px;
-            background-color: #333;
-            color: black;
+            background-color:mediumslateblue;
+            color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -78,6 +81,13 @@
         }
 
     .note-card .date {
+        position: absolute;
+        top: 10px;
+        right: 30px;
+        font-size: 14px;
+        color: #888;
+    }
+    .note-card .settings {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -105,11 +115,22 @@
         text-align: center; /* Görseli merkeze hizala */
         margin-top: 20px; /* p ile arasında boşluk bırak */
         margin-bottom:20px;
-        width: %60;
-        height: %35;
     }
 
         .note-card .image-container img {
+            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+
+    .note-card .image-container-upload {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom: 20px;
+        width:50%;
+        height:auto;
+    }
+
+        .note-card .image-container-upload img {
             max-width: 100%; /* Görselin maksimum genişliğini ayarla */
             height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
         }
@@ -133,13 +154,29 @@
         font-weight: bold;
     }
 
-
-
+    .note-card textarea {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+    #dropArea{
+        width:50%;
+    }
+    #PostImage{
+        width:50%;
+    }
 
 </style>
 
 
 <div id="user-content" style="margin:0px;">
+    <!--
     <div>
     <form method="post" asp-action="CreatePost" asp-controller="Post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -156,12 +193,53 @@
         </div>
     </form>
     </div>
+    -->
+    <div class="note-card">
+        <form method="post" asp-action="CreatePost" asp-controller="Post" enctype="multipart/form-data">
+            <div style="background-color:transparent;border:none;"> <input asp-for="Header" style="background-color:transparent;border:none;" placeholder="Enter an header" /> </div>
+        
+        <textarea asp-for="Text" oninput="autoResize(this)" placeholder="Enter text here"></textarea>
+       <div class="d-flex flex-row justify-content-center align-content-center">
+         <div class="image-container-upload" style="border-style: dashed; border-color: gray; border-width:2px; position: relative; display: flex; justify-content: center; align-items: center;">
+                <div id="dropArea" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="handleClick()">
+                    <i id="upload-icon" class="bi bi-upload"></i> <p id="upload-text">Upload An Image</p>
+                    <img id="PostImagePrv" src="" width="100%" height="auto">
+                </div>
+                <input asp-for="ImagePath" id="PostImage" name="PostImage" type="file" style="display: none;" accept="image/*" onchange="handleFileSelect(event)">
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+                <div class="send-button">
+                    <button type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
     @{
         var posts = _context.Posts.ToList(); // Retrieve posts from the database before the loop
     }
 
     @foreach(var item in posts.OrderByDescending(i => i.PublishDate))
     {
+        <div style="" class="modal" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this post? Delete Process can not be undone!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="post" asp-action="DeletePost" asp-controller="Post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         var user = _context.Users.FirstOrDefault(u => u.Id == item.UserId);
         var profilePhoto = user?.ProfilePhoto;
         var userName = user?.UserName;
@@ -172,6 +250,61 @@
             </div>
             <div> @item.Text </div>
             <div class="date">@item.PublishDate</div>
+            <div class="settings"><a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        if (currentUser.Id == item.UserId)
+                        {
+                            <li><a class="dropdown-item" href="#">Update</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                                
+
+                            </li>
+                            <li class="dropdown-caret"></li>                        
+                        }
+                        else
+                        {
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Report</a></li>
+                            <li class="dropdown-caret"></li>
+                        }
+                    }
+                    else
+                    {
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Report</a></li>
+                        <li class="dropdown-caret"></li>
+                    }
+                </ul>
+
+            </div>
+            
+            <!--
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this post?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form method="post" asp-action="DeletePost" asp-controller="Post">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
             <div class="image-container">
                 <img src="@item.ImagePath">
             </div>
@@ -195,143 +328,58 @@
 
         </div>
     }
-    <div class="note-card">
-        <div> Yeni Çıkan Kitaplar Arasında Önerileriniz Neler? </div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here">Okuma tutkunları olarak, son zamanlarda piyasaya çıkan kitaplar arasında önerilerimizi paylaşalım. Hangi kitapların sizi etkilediğini, hangi yazarların yeni eserleriyle dikkat çektiğini tartışabiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
-    <div class="note-card">
-        <div> Siyasette Gençlerin Rolü ve Katılımı </div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here">Siyasette gençlerin etkin rol oynaması ve katılımının önemini tartışabileceğimiz bir başlık. Gençlerin politik süreçlere nasıl daha fazla dahil olabileceği, gençlerin siyasi kararlarda etkili olmasını sağlayacak stratejiler ve gençlerin siyasi bilinçliliklerini artırmaya yönelik çalışmaları ele alabiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
-    <div class="note-card">
-        <div>Başlık 1: "Gezegenimizin Geleceği İçin Neler Yapabiliriz?</div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here">Bu forum başlığı altında, çevre sorunları ve sürdürülebilirlik konuları üzerine fikir alışverişinde bulunabilir, gezegenimizin geleceği için nasıl daha iyi bir çevresel eylemde bulunabileceğimize dair önerilerde bulunabiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
-    <div class="note-card">
-        <div> Yeni Başlayanlar İçin Programlama Dilleri Hangileri? </div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here">Programlamaya yeni başlayanlar için en uygun programlama dilleri hakkında tartışabileceğimiz bir konu. Hangi dilin başlangıç için daha kolay olduğunu, hangi dilin daha yaygın kullanıldığını ve hangi dilin hangi projeler için en uygun olduğunu keşfedebiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
-    <div class="note-card">
-        <div> 2023 Yılında En Çok Beklenen Filmler Neler? </div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here"> Sinemaseverler olarak, 2023 yılında vizyona girecek en heyecan verici filmler hakkında konuşabilir ve beklentilerimizi paylaşabiliriz. Hangi filmlerin gişe rekorları kırması ve izleyiciler tarafından en çok beklenen yapımlar olduğu hakkında tahminlerde bulunabiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
-    <div class="note-card">
-        <div> Dijital Pazarlama İpuçları ve Stratejileri Paylaşalım </div>
-        <div class="date">June 26, 2023</div>
-        <p oninput="autoResize(this)" placeholder="Enter text here">Dijital pazarlama konusunda deneyimi olanlar olarak, dijital pazarlama alanında başarılı olmak için kullanabileceğimiz ipuçlarını ve stratejileri paylaşalım. Sosyal medya, SEO, içerik pazarlama gibi konuları ele alabiliriz.</p>
-        <!--
-        <div class="send-button">
-            <button type="submit">Send</button>
-        </div>
-        -->
-        <!--
-        <div class="image-container">
-            <img src="path/to/your/image.jpg">
-        </div>
-        -->
-        <div class="feedback">
-            <button>Like</button>
-            <button>Comment</button>
-            <span>0 <i class="bi bi-heart-fill"></i> </span>
-            <span>0 <i class="bi bi-chat-left-fill"></i></span>
-        </div>
-
-    </div>
+  
 </div>
-<script>
+
+    <script type="text/javascript" >
 
     function autoResize(p) {
         p.style.height = 'auto';
         p.style.height = p.scrollHeight + 'px';
+    }
+        function handleDragOver(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+
+        }
+
+    function handleDrop(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        var files = event.dataTransfer.files;
+        if (files.length > 0) {
+            var file = files[0];
+            if (file.type.match('image.*')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('PostImagePrv').src = e.target.result;
+                    document.getElementById('PostImage').files = files; // Resmi input alanÄ±na ekleyin
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+    }
+
+    function handleClick() {
+        document.getElementById('PostImage').click();
+    }
+
+    function handleFileSelect(event) {
+        var files = event.target.files;
+        if (files.length > 0) {
+            var file = files[0];
+            if (file.type.match('image.*')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('PostImagePrv').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        document.getElementById('upload-icon').style.display = "none";
+        document.getElementById('upload-text').style.display = 'none';
     }
 </script>

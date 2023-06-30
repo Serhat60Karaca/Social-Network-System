@@ -138,7 +138,7 @@
     <header>
         <nav class="navbar navbar-expand-lg shadow">
             <div class="container-fluid">
-                <img class="navbar-brand" style="image-rendering: optimizeSpeed;" href="#" src="\images\Logo.png" width="75" height="85">
+                <img class="navbar-brand" style="image-rendering:optimizeQuality;" href="#" src="\images\Logo.png" width="75" height="85">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -180,6 +180,7 @@
                         <li class="nav-item">
                             <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45">
                         </li>
+                            
                         <li class="nav-item">
                             <a class="nav-link" asp-action="ProfileDetail" asp-controller="Profile"> @currentUser.UserName </a>
                         </li>
