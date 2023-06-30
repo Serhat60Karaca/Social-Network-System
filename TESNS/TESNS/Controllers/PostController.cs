@@ -106,11 +106,16 @@ namespace TESNS.Controllers
             {
                 return NotFound();
             }
+            if (post.ImagePath != null)
+            {
+                await _photoService.DeletePhotoAsync(post.ImagePath);
+            }
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id != post.UserId)
             {
                 return Unauthorized();
             }
+            
 
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();

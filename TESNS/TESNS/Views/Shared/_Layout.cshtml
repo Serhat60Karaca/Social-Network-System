@@ -177,33 +177,38 @@
                     </form>
                     <ul class="navbar-nav ml-auto">
                         @if(SignInManager.IsSignedIn(User)){
-                        <li class="nav-item">
-                            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45">
-                        </li>
-                            
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="ProfileDetail" asp-controller="Profile"> @currentUser.UserName </a>
-                        </li>
-                        <li class="nav-item dropdown notifications">
-                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
-                                Notifications
-                            </a>
-                            <ul class="dropdown-menu notifications" id="notifications-dropdown" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
-                                <li><a class="dropdown-item" href="#">Notification 1</a></li>
-                                <li><a class="dropdown-item" href="#">Notification 2</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Notification 3</a></li>
-                                <li class="dropdown-caret"></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="LogOut" asp-controller="User">
+                            <li class="nav-item dropdown notifications">
+                                <a class="nav-link mt-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
+                                    Notifications
+                                </a>
+                                <ul class="dropdown-menu notifications" id="notifications-dropdown" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
+                                    <li><a class="dropdown-item" href="#">Notification 1</a></li>
+                                    <li><a class="dropdown-item" href="#">Notification 2</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Notification 3</a></li>
+                                    <li class="dropdown-caret"></li>
+                                </ul>
+                            </li>
+                       
+                        <li class="nav-item dropdown">
+
+                                <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false" asp-action="ProfileDetail" asp-controller="Profile">
+                                    <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45"> @currentUser.UserName 
+                                    </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-action="LogOut" asp-controller="User">
                                 Sign Out
-                                <svg style="margin-left: 5px;align-items: center;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-                                </svg>
-                            </a>
+                                <i class="bi bi-box-arrow-right"></i>
+                            </a></li>
+                                    <li><a class="dropdown-item" href="#">Notification 2</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Notification 3</a></li>
+                                    <li class="dropdown-caret"></li>
+                                </ul>
+                        </li>
+                           
+                        <li class="nav-item">
+                            
                         </li>
                         }
                         else 

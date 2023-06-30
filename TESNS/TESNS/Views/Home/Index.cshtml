@@ -118,7 +118,7 @@
     }
 
         .note-card .image-container img {
-            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+            max-width: 50%; /* Görselin maksimum genişliğini ayarla */
             height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
         }
 
@@ -168,8 +168,19 @@
     #dropArea{
         width:50%;
     }
-    #PostImage{
+    #ImagePath{
         width:50%;
+    }
+    .explain{
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
     }
 
 </style>
@@ -194,20 +205,21 @@
     </form>
     </div>
     -->
+    
     <div class="note-card">
         <form method="post" asp-action="CreatePost" asp-controller="Post" enctype="multipart/form-data">
-            <div style="background-color:transparent;border:none;"> <input asp-for="Header" style="background-color:transparent;border:none;" placeholder="Enter an header" /> </div>
-        
-        <textarea asp-for="Text" oninput="autoResize(this)" placeholder="Enter text here"></textarea>
-       <div class="d-flex flex-row justify-content-center align-content-center">
-         <div class="image-container-upload" style="border-style: dashed; border-color: gray; border-width:2px; position: relative; display: flex; justify-content: center; align-items: center;">
-                <div id="dropArea" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="handleClick()">
-                    <i id="upload-icon" class="bi bi-upload"></i> <p id="upload-text">Upload An Image</p>
-                    <img id="PostImagePrv" src="" width="100%" height="auto">
+            <div style="background-color:transparent;border:none;"> <input asp-for="Header" style="background-color:transparent;border:none; width:100%;" placeholder="What Is The Today's Topic ? ^-^" /> </div>
+
+            <textarea asp-for="Text" oninput="autoResize(this)" placeholder="How Do You Feel Today ^-^"></textarea>
+            <div class="d-flex flex-row justify-content-center align-content-center">
+                <div class="image-container-upload" style="border-style: dashed; border-color: gray; border-width:2px; position: relative; display: flex; justify-content: center; align-items: center;">
+                    <div id="dropArea" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="handleClick()">
+                        <i id="upload-icon" class="bi bi-upload"></i> <p id="upload-text">Upload An Image</p>
+                        <img id="PostImagePrv" src="" width="100%" height="auto">
+                    </div>
+                    <input asp-for="ImagePath" id="ImagePath" name="ImagePath" type="file" style="display: none;" accept="image/*" onchange="handleFileSelect(event)">
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
                 </div>
-                <input asp-for="ImagePath" id="PostImage" name="PostImage" type="file" style="display: none;" accept="image/*" onchange="handleFileSelect(event)">
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
-            </div>
                 <div class="send-button">
                     <button type="submit">Send</button>
                 </div>
@@ -220,15 +232,40 @@
 
     @foreach(var item in posts.OrderByDescending(i => i.PublishDate))
     {
-        <div style="" class="modal" id="deleteModal">
+        <div style="" class="modal" id="reportModal_@item.Id">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
+                        <h5 class="modal-title">Report Community Rule Violation</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete this post? Delete Process can not be undone!
+                        @{
+                            var author = _context.Users.FirstOrDefault(i => i.Id == item.UserId);
+                            var authorName = author?.UserName;
+                        }
+                        <p>Why do you want to report @authorName?</p>
+                        <textarea class="explain" placeholder="Explain here"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="post" asp-action="DeletePost" asp-controller="Post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="" class="modal" id="deleteModal_@item.Id">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">WARNING</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this post? The delete process cannot be undone!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -240,43 +277,47 @@
                 </div>
             </div>
         </div>
+
         var user = _context.Users.FirstOrDefault(u => u.Id == item.UserId);
         var profilePhoto = user?.ProfilePhoto;
         var userName = user?.UserName;
+
         <div class="note-card">
             <div class="user-profile">
                 <img class="profile-picture" src="@profilePhoto">
                 <div class="username">@userName</div>
             </div>
-            <div> @item.Text </div>
+            <div>@item.Text</div>
             <div class="date">@item.PublishDate</div>
-            <div class="settings"><a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
+            <div class="settings">
+                <a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots"></i>
+                </a>
                 <ul class="dropdown-menu">
                     @if (SignInManager.IsSignedIn(User))
                     {
                         if (currentUser.Id == item.UserId)
                         {
-                            <li><a class="dropdown-item" href="#">Update</a></li>
+                            <li><a class="dropdown-item" href="#">Update <i class="bi bi-pencil"></i></a></li>
                             <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
-                                
-
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_@item.Id">Delete <i class="bi bi-trash"></i></a>
                             </li>
-                            <li class="dropdown-caret"></li>                        
+                            <li class="dropdown-caret"></li>
                         }
                         else
                         {
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Report</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@item.Id">Report <i class="bi bi-flag"></i></a></li>
                             <li class="dropdown-caret"></li>
                         }
                     }
                     else
                     {
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Report</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@item.Id">Report <i class="bi bi-flag"></i></a></li>
                         <li class="dropdown-caret"></li>
                     }
+
                 </ul>
 
             </div>
@@ -332,7 +373,6 @@
 </div>
 
     <script type="text/javascript" >
-
     function autoResize(p) {
         p.style.height = 'auto';
         p.style.height = p.scrollHeight + 'px';
@@ -355,7 +395,7 @@
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     document.getElementById('PostImagePrv').src = e.target.result;
-                    document.getElementById('PostImage').files = files; // Resmi input alanÄ±na ekleyin
+                    document.getElementById('ImagePath').files = files; // Resmi input alanÄ±na ekleyin
                 };
                 reader.readAsDataURL(file);
             }
@@ -364,7 +404,7 @@
     }
 
     function handleClick() {
-        document.getElementById('PostImage').click();
+        document.getElementById('ImagePath').click();
     }
 
     function handleFileSelect(event) {
