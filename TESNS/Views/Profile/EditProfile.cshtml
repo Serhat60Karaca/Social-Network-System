@@ -22,19 +22,19 @@
                 </div>
                 <form asp-action="EditProfile" enctype="multipart/form-data">
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Username</label><input asp-for="UserName" class="form-control" placeholder="username" value="@currentUser.UserName"></div>
+                    <div class="col-md-6"><h5 style="margin-bottom:6px;">Username</h5><input asp-for="UserName" class="form-control" placeholder="username" value="@currentUser.UserName"></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Phone Number</label><input asp-for="PhoneNumber" class="form-control" value="@currentUser.PhoneNumber" placeholder="phone number"></div>
-                    <div class="col-md-12"><label class="labels">Birth Date</label><input asp-for="BirthDate" class="form-control" placeholder="birth date" value="@currentUser.BirthDate"></div>
-                    <div class="col-md-12"><label class="labels"> Gender </label><select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()"> </select>
+                        <div class="col-md-6"><h5 style="margin-bottom:6px;">Phone Number</h5><input asp-for="PhoneNumber" class="form-control" value="@currentUser.PhoneNumber" placeholder="phone number"></div>
+                        <div class="col-md-12"><h5 style="margin-bottom:6px;">Birth Date</h5><input asp-for="BirthDate" class="form-control" placeholder="birth date" value="@currentUser.BirthDate"></div>
+                        <div class="col-md-12">
+                            <h5 style="margin-bottom:6px; margin-right:6px;">Gender</h5><select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()"> </select>
                 </div>
                         <div class="form-group">
-                            <label asp-for="ProfilePhoto" class="control-label"></label>
+                            <h5 style="margin-bottom:6px;">Profile Photo</h5>
                             <input asp-for="ProfilePhoto" value="http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg" type="file" class="form-control" />
                             <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
                         </div>
-                        
                         <div class="mt-5 text-center" style="margin-top:10px"><input type="submit" value="Save" class="btn btn-primary profile-button" ></div>
                 </form>
             </div>

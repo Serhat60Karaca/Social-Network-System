@@ -1,13 +1,65 @@
-﻿@model TESNS.ViewModels.UserDetailViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model TESNS.ViewModels.UserDetailViewModel
+
+@inject UserManager<AppUser> UserManager
 
 @{
     ViewData["Title"] = "ProfileDetail";
     Layout = null;
+    var currentUser = await UserManager.GetUserAsync(User);
 }
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<link rel="stylesheet" href="~/css/detailprofile.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
+<div class="">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="@currentUser.ProfilePhoto"><span class="font-weight-bold">@currentUser.UserName</span><span class="text-black-50">@currentUser.Email</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Details</h4>
+                    <form>
+                        <div>
+                            <input style="background-color: darkslateblue;text-align:center;text-decoration:none;border-radius: 3px;color:white;" 
+                            type="submit" asp-action="EditProfile" asp-controller="Profile" value="Edit Profile" />
+                            <input style="background-color: red;text-align:center;text-decoration:none;border-radius: 3px;color:white;"
+                            type="submit" asp-action="Index" asp-controller="Home" value="Go Home"/>
+                        </div>
+                    </form>
+                </div>
+                <form>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><h5> Username</h5> <p class="info">@currentUser.UserName</p> </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><h5> Phone Number </h5> <p class="info">@currentUser.PhoneNumber</p> </div>
+                        <div class="col-md-12"><h5> Birth Day</h5> <p class="info">@currentUser.BirthDate</p> </div>
+                        <div class="col-md-12">
+                            <h5> Gender</h5> <p class="info">@currentUser.Cinsiyet </p>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+<style>
+    .info
+    {
+        font-size:17px;
+    }
+   
+</style>
+<!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+
 
 <div class="container emp-profile">
     <form method="post">
@@ -19,7 +71,7 @@
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
-                    <!--<h5>
+                    <h5> 
                         @Model.UserName
                     </h5>
                     <h6>
@@ -33,7 +85,7 @@
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
                         </li>
-                    </ul>-->
+                    </ul>
                 </div>
             </div>
             <div class="col-md-2" style="margin-top:20px">
@@ -137,5 +189,5 @@
             </div>
         </div>
     </form>
-</div>
+</div>-->
 
