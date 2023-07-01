@@ -28,7 +28,8 @@ namespace TESNS.Controllers
         [HttpGet]
         public IActionResult CreatePost()
         {
-            return View();
+            CreatePostViewModel createPostViewModel = new CreatePostViewModel();
+            return PartialView("_SendProduct", createPostViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> CreatePost(CreatePostViewModel postVM)

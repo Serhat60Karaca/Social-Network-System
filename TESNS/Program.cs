@@ -63,6 +63,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseAuthentication();
+app.MapControllers();
 /*
 app.MapControllerRoute(
     "PersonnelsDelete",

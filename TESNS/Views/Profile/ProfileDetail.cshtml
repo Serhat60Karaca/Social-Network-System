@@ -1,187 +1,204 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model TESNS.ViewModels.UserDetailViewModel
-
+@using TESNS.Models
+@using TESNS.Models.Authentication
+@using TESNS.ViewModels
+@inject ApplicationDbContext _context
 @inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@model TESNS.ViewModels.UserDetailViewModel
 
 @{
     ViewData["Title"] = "ProfileDetail";
-    Layout = null;
-    var currentUser = await UserManager.GetUserAsync(User);
 }
-
-<link rel="stylesheet" href="~/css/detailprofile.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
-<div class="">
-    <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="@currentUser.ProfilePhoto"><span class="font-weight-bold">@currentUser.UserName</span><span class="text-black-50">@currentUser.Email</span><span> </span></div>
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Details</h4>
-                    <form>
-                        <div>
-                            <input style="background-color: darkslateblue;text-align:center;text-decoration:none;border-radius: 3px;color:white;" 
-                            type="submit" asp-action="EditProfile" asp-controller="Profile" value="Edit Profile" />
-                            <input style="background-color: red;text-align:center;text-decoration:none;border-radius: 3px;color:white;"
-                            type="submit" asp-action="Index" asp-controller="Home" value="Go Home"/>
-                        </div>
-                    </form>
-                </div>
-                <form>
-                    <div class="row mt-2">
-                        <div class="col-md-6"><h5> Username</h5> <p class="info">@currentUser.UserName</p> </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6"><h5> Phone Number </h5> <p class="info">@currentUser.PhoneNumber</p> </div>
-                        <div class="col-md-12"><h5> Birth Day</h5> <p class="info">@currentUser.BirthDate</p> </div>
-                        <div class="col-md-12">
-                            <h5> Gender</h5> <p class="info">@currentUser.Cinsiyet </p>
-                        </div>
-                </form>
-            </div>
-        </div>
-
-    </div>
-</div>
-</div>
-</div>
+@{
+    CreatePostViewModel createPostViewModel = new CreatePostViewModel();
+}
 <style>
-    .info
-    {
-        font-size:17px;
+    .note-card {
+        position: relative;
+        max-width: 100%;
+        width: 100%;
+        background-color: yellow;
+        border-radius: 0;
+        padding: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        margin-bottom: 20px;
     }
-   
+
+    @@media (max-width: 600px) {
+        .note-card {
+            width: 100%;
+        }
+    }
+
+
+    .note-card::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.2);
+        clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
+
+
+
+    .note-card p {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+
+    .note-card .send-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        align-items: center;
+        margin-left: 5%;
+    }
+
+        .note-card .send-button button {
+            padding: 10px 20px;
+            background-color: mediumslateblue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    .note-card .date {
+        position: absolute;
+        top: 10px;
+        right: 30px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .note-card .settings {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .note-card .feedback {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+        .note-card .feedback button {
+            background-color: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+    .note-card .image-container {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom: 20px;
+    }
+
+        .note-card .image-container img {
+            max-width: 50%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+
+    .note-card .image-container-upload {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom: 20px;
+        width: 50%;
+        height: auto;
+    }
+
+        .note-card .image-container-upload img {
+            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+
+
+    .profile-edit-btn {
+        background-color: yellow;
+        margin: 7px;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .profile-background {
+        background-image: url("/images/seiser-alm-gf6d900d00_1280.jpg");
+        background-size: cover;
+        background-position: center center;
+        height: 275px;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-picture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .username {
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+
 </style>
-<!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-<div class="container emp-profile">
+<div class="container emp-profile d-block">
+   
+   
     <form method="post">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-img">
-                    <img src="@Model.ProfilePhoto" alt="" />
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="profile-head">
-                    <h5> 
-                        @Model.UserName
-                    </h5>
-                    <h6>
-                        Web Developer and Designer
-                    </h6>
-                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2" style="margin-top:20px">
-                <input asp-action="EditProfile" asp-controller="Profile" type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Username</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Model.UserName</p>
-                            </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="note-card card mt-5">
+                        <div class="profile-background">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>E-mail</label>
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-end">
+
+                                <button asp-action="EditProfile" asp-controller="Profile" class="btn btn-primary mb-3 d-flex flex-row flex-nowrap" style="font-size:20px;margin:1px;"> <h5>Edit User</h5> <i style="font-size:revert-layer;" class="bi bi-pencil"></i></button>
                             </div>
-                            <div class="col-md-6">
-                                <p>@Model.Email</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Phone Number</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Model.PhoneNumber</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Birth Date</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Model.BirthDate</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Gender</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Model.Gender</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Experience</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Hourly Rate</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>10$/hr</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Total Projects</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>230</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>English Level</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Availability</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>6 months</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Your Bio</label><br />
-                                <p>Your detail description</p>
+                            <img src="@Model.ProfilePhoto" class="rounded-circle mb-3" alt="Profil Resmi" style="width: 150px; height: 150px; object-fit: cover; position: relative; margin-top: -125px;">
+                            <h5 class="card-title">@Model.UserName</h5>
+                            <p class="card-text">Şehir Adı</p>
+                            <button class="btn btn-primary mb-3">Follow</button>
+                            <hr />
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-muted">Followers</p>
+                                    <p class="lead">100</p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-muted">Posts</p>
+                                    <p class="lead">50</p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-muted">Ranks</p>
+                                    <p class="lead">10</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,5 +206,115 @@
             </div>
         </div>
     </form>
-</div>-->
+    @Html.Partial("_SendPost", createPostViewModel)
+    @{
+        var currentUser = await UserManager.GetUserAsync(User);
+        var posts = _context.Posts.Where(i => i.UserId == currentUser.Id).ToList();
+    }
+    @foreach (var item in posts.OrderByDescending(i => i.PublishDate))
+    {
+        <div style="" class="modal" id="reportModal_@item.Id">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Report Community Rule Violation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @{
+                            var author = _context.Users.FirstOrDefault(i => i.Id == item.UserId);
+                            var authorName = author?.UserName;
+                        }
+                        <p>Why do you want to report @authorName?</p>
+                        <textarea class="explain" placeholder="Explain here"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="post" asp-action="DeletePost" asp-controller="Post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="" class="modal" id="deleteModal_@item.Id">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">WARNING</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this post? The delete process cannot be undone!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="post" asp-action="DeletePost" asp-controller="Post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        var user = _context.Users.FirstOrDefault(u => u.Id == item.UserId);
+        var profilePhoto = user?.ProfilePhoto;
+        var userName = user?.UserName;
+
+        <div class="note-card">
+            <div class="user-profile">
+                <img class="profile-picture" src="@profilePhoto">
+                <div class="username">@userName</div>
+            </div>
+            <div>@item.Text</div>
+            <div class="date">@item.PublishDate</div>
+            <div class="settings">
+                <a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        if (currentUser.Id == item.UserId)
+                        {
+                            <li><a class="dropdown-item" href="#">Update <i class="bi bi-pencil"></i></a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_@item.Id">Delete <i class="bi bi-trash"></i></a>
+                            </li>
+                            <li class="dropdown-caret"></li>
+                        }
+                        else
+                        {
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@item.Id">Report <i class="bi bi-flag"></i></a></li>
+                            <li class="dropdown-caret"></li>
+                        }
+                    }
+                    else
+                    {
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@item.Id">Report <i class="bi bi-flag"></i></a></li>
+                        <li class="dropdown-caret"></li>
+                    }
+
+                </ul>
+
+            </div>
+
+            <div class="image-container">
+                <img src="@item.ImagePath">
+            </div>
+
+            <div class="feedback">
+                <button>Like</button>
+                <button>Comment</button>
+                <span>@item.LikeCount <i class="bi bi-heart-fill"></i> </span>
+                <span>@item.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+            </div>
+
+        </div>
+    }
+</div>
 
