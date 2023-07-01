@@ -4,8 +4,6 @@ using TESNS.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using TESNS.Models.Authentication;
-using TESNS.Models;
 using TESNS.Services;
 using TESNS.Helpers;
 using TESNS.Repositories;

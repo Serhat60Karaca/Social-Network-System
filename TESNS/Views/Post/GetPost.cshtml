@@ -1,0 +1,18 @@
+﻿@model Post
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container bg-warning">
+    
+        <div class="conteiner ">
+            <h1> @Model.Header</h1>
+            <p class="text-break"> @Model.Text</p>
+            <p><img src="@Model.ImagePath" alt="Card image cap"> </p>
+            <p>
+                <span>@Model.LikeCount <i class="bi bi-heart-fill"></i> </span>
+                <span>@Model.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+            </p>
+        </div>
+</div>

@@ -25,6 +25,18 @@ namespace TESNS.Controllers
             _signInManager = signInManager;
         }
 
+
+
+        [HttpGet]
+        public IActionResult GetPost(int id)
+        {
+            Post? post = _context.Posts.Find(id);
+            if(post == null)
+                return NotFound();
+            
+            return View(post);
+        }
+
         [HttpGet]
         public IActionResult CreatePost()
         {

@@ -223,7 +223,7 @@
                 <img class="profile-picture" src="@profilePhoto">
                 <div class="username">@userName</div>
             </div>
-            <div>@item.Text</div>
+            <div class="text-break">@item.Text</div>
             <div class="date">@item.PublishDate</div>
             <div class="settings">
                 <a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false">
@@ -261,15 +261,17 @@
             <div class="image-container">
                 <img src="@item.ImagePath">
             </div>
-
+            
             <div class="feedback">
                 <button>Like</button>
                 <button>Comment</button>
                 <span>@item.LikeCount <i class="bi bi-heart-fill"></i> </span>
                 <span>@item.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+                <button class="btn btn-primary" style="float:right;"><a style="text-decoration:none; color:gray;" asp-controller="Post" asp-action="GetPost" asp-route-id="@item.Id">View post ->>></a></button>
+
             </div>
 
         </div>
     }
-  
 </div>
+
