@@ -163,12 +163,15 @@
                                 <li class="dropdown-caret"></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="ShowAllProfiles" asp-controller="Profile">Other Users</a>
+                            </li>
+                        <!--<li class="nav-item">
                             <a class="nav-link" asp-action="CreatePost" asp-controller="Post">Crate a Post</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="ListPosts" asp-controller="Post">My Posts</a>
-                        </li>
+                            </li>-->
                         }
                     </ul>
                     <form class="d-flex mx-auto dropdown" role="search">
@@ -194,13 +197,13 @@
 
                                 <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false" asp-action="ProfileDetail" asp-controller="Profile">
                                     <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45"> @currentUser.UserName 
-                                    </a>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" asp-action="LogOut" asp-controller="User">
                                 Sign Out
                                 <i class="bi bi-box-arrow-right"></i>
                             </a></li>
-                                    <li><a class="dropdown-item" asp-action="ProfileDetail" asp-controller="Profile">Profile</a></li> <!--Serhatım iconu hallet-->
+                                    <li><a class="dropdown-item" asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@currentUser.Id">Profile</a></li> <!--Serhatım iconu hallet-->
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="#">Notification 3</a></li>
                                     <li class="dropdown-caret"></li>

@@ -1,0 +1,21 @@
+﻿@model ICollection<AppUser>
+
+@foreach(var item in Model)
+{
+
+    <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@item.ProfilePhoto" alt="Profile Image" width="45" height="45"> 
+    <a id="user" asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@item.Id">@item.UserName</a>
+    
+}
+<style> 
+    #user
+    {
+        text-decoration:none;
+        color:white;
+        margin-right:7px;
+    }
+    #user:hover
+    {
+        color:crimson;
+    }
+</style>

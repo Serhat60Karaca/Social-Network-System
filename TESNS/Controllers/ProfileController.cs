@@ -7,6 +7,7 @@ using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Authorization;
 using TESNS.Services;
+using TESNS.Repositories;
 
 namespace TESNS.Controllers
 {
@@ -16,30 +17,37 @@ namespace TESNS.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IPhotoService _photoService;
-        public ProfileController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ApplicationDbContext context,IPhotoService photoService)
+        private readonly IUserRepository _userRepository;
+        public ProfileController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, 
+            ApplicationDbContext context,IPhotoService photoService,IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _photoService = photoService;
+            _userRepository = userRepository;
         }
-        public async Task<IActionResult> ProfileDetail() 
+        [HttpGet]
+        [Route("Profile/ProfileDetail/{id}")]
+        public async Task<IActionResult> ProfileDetail(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userRepository.GetUserById(id);
+            //var user = await _userManager.GetUserAsync(User);
             if (user == null) return View();
             var userDetailVM = new UserDetailViewModel()
             {
                 //FirstName=user.FirstName,
                 //LastName=user.LastName,
+                Id = id,
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
                 Gender = user.Cinsiyet,
-                ProfilePhoto= user.ProfilePhoto // if li bir ifadeyle photo boşsa otomatik bir foto at
+                ProfilePhoto= user.ProfilePhoto 
             };
             return View(userDetailVM);
-    }
+        }
         [HttpGet]
         //[Authorize]
         public async Task<IActionResult> EditProfile() 
@@ -109,6 +117,12 @@ namespace TESNS.Controllers
            
 
           return RedirectToAction("ProfileDetail","Profile");
+        }
+        public async Task<IActionResult> ShowAllProfiles() 
+        {
+            var users = await _userRepository.GetAllUsers();
+
+            return View(users);
         }
     }
 }

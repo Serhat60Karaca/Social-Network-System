@@ -27,9 +27,11 @@ namespace TESNS.Repositories.concretes
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<AppUser> GetUserById(string id)
+        public async Task<AppUser> GetUserById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(id);
+            return user;
+          
             //return await _context.Users.FindAsync(id);
         }
 

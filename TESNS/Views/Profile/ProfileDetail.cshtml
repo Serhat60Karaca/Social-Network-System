@@ -12,163 +12,167 @@
 }
 @{
     CreatePostViewModel createPostViewModel = new CreatePostViewModel();
+    var currentUser = await UserManager.GetUserAsync(User);
+    var posts = _context.Posts.Where(i => i.UserId == Model.Id).ToList();
+
+
 }
 <style>
     .note-card {
-        position: relative;
-        max-width: 100%;
-        width: 100%;
-        background-color: yellow;
-        border-radius: 0;
-        padding: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        margin-bottom: 20px;
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    background-color: yellow;
+    border-radius: 0;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin-bottom: 20px;
     }
 
     @@media (max-width: 600px) {
-        .note-card {
-            width: 100%;
-        }
+    .note-card {
+    width: 100%;
+    }
     }
 
 
     .note-card::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(0, 0, 0, 0.2);
-        clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
     }
 
 
 
     .note-card p {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        margin-top: 20px;
-        box-sizing: border-box;
-        background-color: transparent;
-        resize: none;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    resize: none;
     }
 
     .note-card .send-button {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-        align-items: center;
-        margin-left: 5%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    align-items: center;
+    margin-left: 5%;
     }
 
-        .note-card .send-button button {
-            padding: 10px 20px;
-            background-color: mediumslateblue;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .note-card .send-button button {
+    padding: 10px 20px;
+    background-color: mediumslateblue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    }
 
     .note-card .date {
-        position: absolute;
-        top: 10px;
-        right: 30px;
-        font-size: 14px;
-        color: #888;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    font-size: 14px;
+    color: #888;
     }
 
     .note-card .settings {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        color: #888;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #888;
     }
 
     .note-card .feedback {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        font-size: 14px;
-        color: #888;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #888;
     }
 
-        .note-card .feedback button {
-            background-color: transparent;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+    .note-card .feedback button {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    margin-right: 10px;
+    }
 
     .note-card .image-container {
-        text-align: center; /* Görseli merkeze hizala */
-        margin-top: 20px; /* p ile arasında boşluk bırak */
-        margin-bottom: 20px;
+    text-align: center; /* Görseli merkeze hizala */
+    margin-top: 20px; /* p ile arasında boşluk bırak */
+    margin-bottom: 20px;
     }
 
-        .note-card .image-container img {
-            max-width: 50%; /* Görselin maksimum genişliğini ayarla */
-            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
-        }
+    .note-card .image-container img {
+    max-width: 50%; /* Görselin maksimum genişliğini ayarla */
+    height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+    }
 
     .note-card .image-container-upload {
-        text-align: center; /* Görseli merkeze hizala */
-        margin-top: 20px; /* p ile arasında boşluk bırak */
-        margin-bottom: 20px;
-        width: 50%;
-        height: auto;
+    text-align: center; /* Görseli merkeze hizala */
+    margin-top: 20px; /* p ile arasında boşluk bırak */
+    margin-bottom: 20px;
+    width: 50%;
+    height: auto;
     }
 
-        .note-card .image-container-upload img {
-            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
-            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
-        }
+    .note-card .image-container-upload img {
+    max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+    height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+    }
 
 
     .profile-edit-btn {
-        background-color: yellow;
-        margin: 7px;
-        border: 1px solid black;
-        border-radius: 10px;
+    background-color: yellow;
+    margin: 7px;
+    border: 1px solid black;
+    border-radius: 10px;
     }
 
     .profile-background {
-        background-image: url("/images/seiser-alm-gf6d900d00_1280.jpg");
-        background-size: cover;
-        background-position: center center;
-        height: 275px;
+    background-image: url("/images/seiser-alm-gf6d900d00_1280.jpg");
+    background-size: cover;
+    background-position: center center;
+    height: 275px;
     }
 
     .user-profile {
-        display: flex;
-        align-items: center;
+    display: flex;
+    align-items: center;
     }
 
     .profile-picture {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
     }
 
     .username {
-        margin-left: 10px;
-        font-weight: bold;
+    margin-left: 10px;
+    font-weight: bold;
     }
 
 
 </style>
 <div class="container emp-profile d-block">
-   
-   
+
+
     <form method="post">
         <div class="container">
             <div class="row">
@@ -177,10 +181,12 @@
                         <div class="profile-background">
                         </div>
                         <div class="card-body text-center">
+                            @if (Model.Id == currentUser.Id) { 
                             <div class="d-flex justify-content-end">
 
                                 <button asp-action="EditProfile" asp-controller="Profile" class="btn btn-primary mb-3 d-flex flex-row flex-nowrap" style="font-size:20px;margin:1px;"> <h5>Edit User</h5> <i style="font-size:revert-layer;" class="bi bi-pencil"></i></button>
                             </div>
+                            }
                             <img src="@Model.ProfilePhoto" class="rounded-circle mb-3" alt="Profil Resmi" style="width: 150px; height: 150px; object-fit: cover; position: relative; margin-top: -125px;">
                             <h5 class="card-title">@Model.UserName</h5>
                             <p class="card-text">Şehir Adı</p>
@@ -206,11 +212,10 @@
             </div>
         </div>
     </form>
+    @if (Model.Id == currentUser.Id) { 
     @Html.Partial("_SendPost", createPostViewModel)
-    @{
-        var currentUser = await UserManager.GetUserAsync(User);
-        var posts = _context.Posts.Where(i => i.UserId == currentUser.Id).ToList();
     }
+    
     @foreach (var item in posts.OrderByDescending(i => i.PublishDate))
     {
         <div style="" class="modal" id="reportModal_@item.Id">
