@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Community>
+<div>
+<div>
+   
+</div>
+<div>
+@foreach(var item in Model)
+{
+    <p><img src="@item.Logo" /></p>
+    <p> @item.Name </p>
+    <p> @item.Description </p>
+}
+</div>
+</div>

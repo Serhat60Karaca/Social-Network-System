@@ -12,6 +12,7 @@ namespace TESNS.Models.Authentication
         public string? BirthDate { get; set; }
         public string? ProfilePhoto { get; set; }
         public bool IsEmailConfirmed { get; set; }
+        public string? CoverPhoto { get; set; }
         
     }
 }

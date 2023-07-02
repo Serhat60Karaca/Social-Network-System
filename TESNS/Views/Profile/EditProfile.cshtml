@@ -32,6 +32,11 @@
                             <input asp-for="ProfilePhoto" value="http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg" type="file" class="form-control" />
                             <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <h5 style="margin-bottom:6px;">Cover Photo</h5>
+                            <input asp-for="CoverPhoto" value="https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg" type="file" class="form-control" />
+                            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+                        </div>
                         <div class="mt-5 text-center" style="margin-top:10px"><input type="submit" value="Save" class="btn btn-primary profile-button" ></div>
                 </form>
             </div>

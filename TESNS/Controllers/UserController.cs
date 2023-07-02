@@ -71,6 +71,7 @@ namespace TESNS.Controllers
                 {
                     //FirstName = appUserViewModel.FirstName,
                     //LastName = appUserViewModel.LastName,
+
                     UserName = appUserViewModel.UserName,
                     Email = appUserViewModel.Email,
                     PhoneNumber= appUserViewModel.PhoneNumber,
@@ -80,6 +81,10 @@ namespace TESNS.Controllers
                 if (appUser.ProfilePhoto == null)
                 {
                     appUser.ProfilePhoto = "http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg";
+                }
+                if (appUser.CoverPhoto == null)
+                {
+                    appUser.ProfilePhoto = "https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg";
                 }
                 IdentityResult result = await _userManager.CreateAsync(appUser, appUserViewModel.Password);
                 if (result.Succeeded) { 

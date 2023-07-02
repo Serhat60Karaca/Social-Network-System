@@ -30,5 +30,7 @@ namespace TESNS.ViewModels
         public Gender Gender { get; set; }
         public string? ProfilePhotoUrl { get; set; }
         public IFormFile? ProfilePhoto { get; set; }
+        public string? CoverPhotoUrl { get; set; }
+        public IFormFile? CoverPhoto { get; set; }   
     }
 }

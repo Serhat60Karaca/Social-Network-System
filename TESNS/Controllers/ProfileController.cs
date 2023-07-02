@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Authorization;
 using TESNS.Services;
 using TESNS.Repositories;
+using TESNS.Migrations;
 
 namespace TESNS.Controllers
 {
@@ -32,13 +33,23 @@ namespace TESNS.Controllers
         public async Task<IActionResult> ProfileDetail(int id)
         {
             var user = await _userRepository.GetUserById(id);
-            //var user = await _userManager.GetUserAsync(User);
             if (user == null) return View();
+            //var user = await _userManager.GetUserAsync(User);
+            if (user.ProfilePhoto == null) 
+            {
+                user.ProfilePhoto = "http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg";
+            }
+            if (user.CoverPhoto == null)
+            {
+                user.CoverPhoto = "https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg";
+            }
+           
             var userDetailVM = new UserDetailViewModel()
             {
                 //FirstName=user.FirstName,
                 //LastName=user.LastName,
                 Id = id,
+                CoverPhoto = user.CoverPhoto,
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -55,15 +66,11 @@ namespace TESNS.Controllers
             
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return View();
-            if (user.ProfilePhoto == null) 
-            {
-                user.ProfilePhoto = "http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg";
-            }
             var userEditVM = new EditProfileViewModel()
             {
                 //FirstName=user.FirstName,
                 //LastName= user.LastName,
-                
+                CoverPhotoUrl= user.CoverPhoto,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
@@ -89,8 +96,10 @@ namespace TESNS.Controllers
             {
                 return View("Error");
             }
-            if (editProfileVM.ProfilePhoto != null) {
+            if (editProfileVM.ProfilePhoto != null)
+            {
                 var result = await _photoService.AddPhotoAsync(editProfileVM.ProfilePhoto);
+
                 if (result.Error != null)
                 {
                     ModelState.AddModelError("", "Failed to upload photo");
@@ -101,11 +110,28 @@ namespace TESNS.Controllers
                 }
                 user.ProfilePhoto = result.Url.ToString();
                 editProfileVM.ProfilePhotoUrl = user.ProfilePhoto;
-                await _userManager.UpdateAsync(user);
             }
+            if (editProfileVM.CoverPhoto != null)
+               {
+                    var resultt = await _photoService.AddPhotoAsync(editProfileVM.CoverPhoto);
+
+               if (resultt.Error != null)
+               {
+                    ModelState.AddModelError("", "Failed to upload photo");
+                    }
+               if (!string.IsNullOrEmpty(user.CoverPhoto))
+                   {
+                    _ = _photoService.DeletePhotoAsync(user.CoverPhoto);
+                   }
+                    user.CoverPhoto=resultt.Url.ToString();
+                    editProfileVM.CoverPhotoUrl = user.CoverPhoto;
+               }
+            
+            
+            await _userManager.UpdateAsync(user);
             //user.FirstName = editProfileVM.FirstName;
             //user.LastName = editProfileVM.LastName;
-            
+
             user.UserName = editProfileVM.UserName;
             user.PhoneNumber = editProfileVM.PhoneNumber;
             user.BirthDate = editProfileVM.BirthDate;
@@ -114,6 +140,11 @@ namespace TESNS.Controllers
             {
                 editProfileVM.ProfilePhotoUrl = currentPhoto.ProfilePhoto;
             }
+            if (editProfileVM.CoverPhoto == null)
+            {
+                editProfileVM.CoverPhotoUrl = currentPhoto.CoverPhoto;
+            }
+            user.CoverPhoto = editProfileVM.CoverPhotoUrl;
             user.ProfilePhoto = editProfileVM.ProfilePhotoUrl;
             await _userManager.UpdateAsync(user);
             

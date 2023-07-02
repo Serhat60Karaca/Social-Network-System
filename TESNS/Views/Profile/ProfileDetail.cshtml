@@ -19,14 +19,13 @@
 }
 
 <div class="container emp-profile d-block">
-
-
     <form method="post">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="note-card card mt-5">
                         <div class="profile-background">
+                            <img src="@Model.CoverPhoto"/>
                         </div>
                         <div class="card-body text-center">
                             @if (Model.Id == currentUser.Id) { 
