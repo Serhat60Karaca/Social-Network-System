@@ -60,10 +60,23 @@
             </div>
         </div>
     </form>
-    @if (Model.Id == currentUser.Id) { 
-    @Html.Partial("_SendPost", createPostViewModel)
+      @if (Model.Id == currentUser.Id) {
+        var user = _context.Users.FirstOrDefault(u => u.Id == currentUser.Id);
+        var profilePhoto = user?.ProfilePhoto;
+        var userName = user?.UserName;
+        <div class="note-card" style="display:flex;flex-direction:row;">
+            <div class="user-profile">
+                <img class="profile-picture" src="@profilePhoto">
+                <div class="username">@userName</div>
+            </div>
+
+            <textarea oninput="autoResize(this)" data-bs-toggle="modal" data-bs-target="#sendPostModal">How Do You Feel Today ^-^</textarea>
+            <div class="send-button">
+                <button disabled type="submit">Send</button>
+            </div>
+        </div>
+
     }
-    
     @foreach (var item in posts.OrderByDescending(i => i.PublishDate))
     {
         <div style="" class="modal" id="reportModal_@item.Id">
