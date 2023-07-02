@@ -14,5 +14,22 @@
                 <span>@Model.LikeCount <i class="bi bi-heart-fill"></i> </span>
                 <span>@Model.CommentCount <i class="bi bi-chat-left-fill"></i></span>
             </p>
+
+            <div class="conteiner ">
+                <partial name="_NewCommentPartial" model='new NewCommentViweModel {  PostId = Model.Id }'></partial>
+            </div>
+
+            <div class="conteiner ">
+                <h3>Comments</h3>
+
+                @foreach(var item in Model.Comments)
+                {
+                    <div class="container " style="background-color:darkgoldenrod; ">
+                        <h4>@item.User.UserName</h4>
+                        <p>@item.CommentText</p>
+                    </div>
+                }
+            </div>
+
         </div>
 </div>

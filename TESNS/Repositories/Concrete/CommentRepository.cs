@@ -17,7 +17,8 @@ namespace TESNS.Repositories.Concrete
         {
             _context.Add(comment);
             Post post = _context.Posts.Find(comment.PostId);
-            post.LikeCount++;
+            post.Comments.Add(comment);
+            post.CommentCount++;
             _context.Update(post);
             return _context.SaveChanges() > 0 ? true : false;
         }
@@ -26,7 +27,7 @@ namespace TESNS.Repositories.Concrete
         {
             _context.Remove(comment);
             Post post = _context.Posts.Find(comment.PostId);
-            post.LikeCount--;
+            post.CommentCount--;
             _context.Update(post);
             return _context.SaveChanges() > 0 ? true : false;
         }

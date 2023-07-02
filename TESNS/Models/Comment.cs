@@ -11,7 +11,7 @@ namespace TESNS.Models
 
         //Connections
         [ForeignKey("Post")]
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public Post? Post { get; set; }
 
         [ForeignKey("User")]

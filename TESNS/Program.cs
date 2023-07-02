@@ -9,12 +9,14 @@ using TESNS.Helpers;
 using TESNS.Repositories;
 using TESNS.Repositories.concretes;
 using TESNS.Services.Concrete;
+using TESNS.Repositories.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<ISendEmailService,SendEmailService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));

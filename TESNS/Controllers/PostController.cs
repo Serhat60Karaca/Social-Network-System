@@ -33,7 +33,13 @@ namespace TESNS.Controllers
             Post? post = _context.Posts.Find(id);
             if(post == null)
                 return NotFound();
-            
+            post.Comments = _context.Comments
+                .Where(e => e.PostId == id)
+                .ToList();
+            foreach(var comment in post.Comments)
+            {
+                comment.User = _context.Users.Find(comment.UserId);
+            }
             return View(post);
         }
 
