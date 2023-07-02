@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" href="~/css/notecard.css" />
+    
 
     
     
@@ -63,9 +64,10 @@
     </style>
 </head>
 <body>
+    
     <div class="modal" id="sendPostModal">
-        <div  class="modal-dialog" id="defter-kagit">
-            <div style="background-color:yellow; z-index: 9999;" class="modal-content">
+        <div  class="modal-dialog" id="defter-kagit" style="max-width:100%;">
+            <div style="background-color:#eae2b7; z-index: 9999;" class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" >Create Post</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -73,7 +75,7 @@
                     <div class="modal-body">
                         @Html.Partial("_SendPost", createPostViewModel)
                     </div>
-                <div class="modal-footer" style="background-color:yellow;">
+                <div class="modal-footer" style="background-color:#eae2b7; padding:0;">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                        
                     </div>

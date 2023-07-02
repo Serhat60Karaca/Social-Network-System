@@ -4,7 +4,8 @@
 }
 
 .navbar-nav .nav-link {
-    font-size: 17px; /* Yeni font boyutu değeri */
+    font-size: 19px;
+    font-weight: 500;
 }
 
 #search-results {
@@ -26,7 +27,7 @@
     }
 
 body {
-    background-color: #6260de;
+    background-color: #ccc;
 }
 
 .dropdown-caret {
@@ -57,7 +58,7 @@ body {
 }
 
 #boddiv {
-    background-color: #6260de;
+    background-color: #ccc;
 }
 
 .nfooter ul {
