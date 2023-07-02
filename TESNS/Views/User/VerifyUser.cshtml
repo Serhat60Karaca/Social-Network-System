@@ -1,0 +1,33 @@
+﻿@model VerifyUserViewModel
+
+@{
+    ViewData["Title"] = "VerifyUser";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/login.css" />
+
+<body>
+    <div class="wrapper">
+        <header>Verify Email</header>
+        <p>Please write code that we sent u </p>
+        <form asp-action="VerifyUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="field password">
+                <div class="input-area">
+                    <input type="text" placeholder="Verify Code" asp-for="Code">
+                    <i class="icon fas fa-lock"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+            </div>
+            <input type="submit" value="Verify Email">
+        </form>
+    </div>
+</body>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

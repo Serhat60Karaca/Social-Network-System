@@ -63,6 +63,7 @@ namespace TESNS.Controllers
             {
                 //FirstName=user.FirstName,
                 //LastName= user.LastName,
+                
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
@@ -72,8 +73,8 @@ namespace TESNS.Controllers
             
             return View(userEditVM);
         }
-        [HttpPost]
         //[Authorize]
+        [HttpPost]
         public async Task<IActionResult> EditProfile(EditProfileViewModel editProfileVM)
         {
             var currentPhoto = await _userManager.GetUserAsync(User);
@@ -104,6 +105,7 @@ namespace TESNS.Controllers
             }
             //user.FirstName = editProfileVM.FirstName;
             //user.LastName = editProfileVM.LastName;
+            
             user.UserName = editProfileVM.UserName;
             user.PhoneNumber = editProfileVM.PhoneNumber;
             user.BirthDate = editProfileVM.BirthDate;
@@ -114,9 +116,8 @@ namespace TESNS.Controllers
             }
             user.ProfilePhoto = editProfileVM.ProfilePhotoUrl;
             await _userManager.UpdateAsync(user);
-           
-
-          return RedirectToAction("ProfileDetail","Profile");
+            
+          return View("EditProfile",editProfileVM);
         }
         public async Task<IActionResult> ShowAllProfiles() 
         {

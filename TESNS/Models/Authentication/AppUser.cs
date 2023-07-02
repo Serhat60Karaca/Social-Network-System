@@ -11,7 +11,7 @@ namespace TESNS.Models.Authentication
         public Gender Cinsiyet { get; set; }
         public string? BirthDate { get; set; }
         public string? ProfilePhoto { get; set; }
-
+        public bool IsEmailConfirmed { get; set; }
         
     }
 }

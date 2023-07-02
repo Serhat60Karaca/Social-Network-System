@@ -12,6 +12,7 @@ namespace TESNS.ViewModels
         [Display(Name = "Surname")]
         [Required(ErrorMessage = "Surname is required")]
         public string LastName { get; set; }*/
+        
         [Display(Name = "Username")]
         [Required(ErrorMessage = "Username is required")]
         public string UserName { get; set; }

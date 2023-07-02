@@ -7,6 +7,7 @@ using TESNS.Models.Authentication;
 using TESNS.ViewModels;
 using MailKit.Net.Smtp;
 using System.Security.Cryptography;
+using TESNS.Services;
 
 namespace TESNS.Controllers
 {
@@ -15,11 +16,13 @@ namespace TESNS.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ApplicationDbContext _context;
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,ApplicationDbContext context)
+        private readonly ISendEmailService _sendEmailService;
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,ApplicationDbContext context,ISendEmailService sendEmailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _sendEmailService = sendEmailService;
         }
 
         [HttpGet]
@@ -36,7 +39,7 @@ namespace TESNS.Controllers
             var user = await _userManager.FindByEmailAsync(LoginVM.Email);
             //var user = _context.Users.FirstOrDefault(x => x.Email == LoginVM.Email);
 
-            if (user != null)
+            if (user != null && user.IsEmailConfirmed==true)
             {
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, LoginVM.Password, false, false);
                 if (result.Succeeded)
@@ -79,13 +82,34 @@ namespace TESNS.Controllers
                     appUser.ProfilePhoto = "http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg";
                 }
                 IdentityResult result = await _userManager.CreateAsync(appUser, appUserViewModel.Password);
-                if (result.Succeeded)
-                    return RedirectToAction("Login","User");
+                if (result.Succeeded) { 
+                _sendEmailService.SendEmail(appUser.Email, appUser);
+                return View("VerifyUser");
+                }
                 else
                     result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
             }
             
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> VerifyUser() 
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> VerifyUser(VerifyUserViewModel verifyVM)
+        {
+            if (!ModelState.IsValid) return View();
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.PasswordResetToken == verifyVM.Code);//tricky,verifying using reset token
+            if (user != null)
+            {
+                user.IsEmailConfirmed = true;
+                _context.SaveChanges();
+                return View("Login");
+            }
+            ViewData["Wrong"] = "Your code is wrong please try again";
+            return View(verifyVM.Code);
         }
         [HttpGet]
         public async Task<IActionResult> ResetPassword()
@@ -100,26 +124,7 @@ namespace TESNS.Controllers
             if (user == null) { return RedirectToAction("Login", "User"); }
             if (user != null)
             {
-                MimeMessage mimeMessage = new MimeMessage();
-                MailboxAddress mailboxAddressFrom = new MailboxAddress("SNS", "emirdeveci55@gmail.com");
-                MailboxAddress mailboxAddressTo = new MailboxAddress("User", logVM.Email);
-                mimeMessage.From.Add(mailboxAddressFrom);
-                mimeMessage.To.Add(mailboxAddressTo);
-                var bodyBuilder = new BodyBuilder();
-                Random rnd = new Random();
-                var random = rnd.Next(10000, 100000);
-                var randomm = System.Convert.ToString(random);
-                user.PasswordResetToken = randomm;
-                //user.PasswordResetToken = CreateRandomToken();
-                _context.SaveChanges();
-                bodyBuilder.TextBody = "reset password code:" + user.PasswordResetToken;
-                mimeMessage.Body = bodyBuilder.ToMessageBody();
-                mimeMessage.Subject = "Password Reset Code";
-                SmtpClient client = new SmtpClient();
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("emirdeveci55@gmail.com", "yngcadpphqqnjqrs");
-                client.Send(mimeMessage);
-                client.Disconnect(true);
+                _sendEmailService.SendEmail(logVM.Email, user);
                 return View("ChangePassword");
             }
             return View("ChangePassword");
