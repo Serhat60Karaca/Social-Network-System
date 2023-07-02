@@ -133,15 +133,23 @@
             <div class="image-container">
                 <img src="@item.ImagePath">
             </div>
-            
-            <div class="feedback">
-                <button>Like</button>
-                <button>Comment</button>
-                <span>@item.LikeCount <i class="bi bi-heart-fill"></i> </span>
-                <span>@item.CommentCount <i class="bi bi-chat-left-fill"></i></span>
-                <button class="btn btn-primary" style="float:right;"><a style="text-decoration:none; color:gray;" asp-controller="Post" asp-action="GetPost" asp-route-id="@item.Id">View post ->>></a></button>
 
+            <div class="feedback" style="display: flex; justify-content: center; align-items: center;">
+                <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
+                    <a style="btn btn-primary;text-decoration: none;color: #888;">Like</a>
+                    <span>@item.LikeCount <i class="bi bi-heart-fill"></i></span>
+                </div>
+                <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
+                    <a style="btn btn-primary;text-decoration: none;color: #888;" asp-controller="Post" asp-action="GetPost" asp-route-id="@item.Id">Comment</a>
+                    <span>@item.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+                </div>
+                <div style="border: 1px solid; border-radius: 5px; margin-left: 10px; padding: 7px 10px 7px 10px;">
+                    <a href="#" class="copyButton" onclick="copyURL('@item.Id', this)" style="btn btn-primary; text-decoration: none; color: #888;">Share</a>
+                    <span><i class="bi bi-send-fill"></i></span>
+                </div>
             </div>
+
+
 
         </div>
     }

@@ -1,19 +1,209 @@
-﻿@model NewCommentViweModel
+﻿@using Microsoft.AspNetCore.Identity
+@using TESNS.Models
+@using TESNS.Models.Authentication
+@using TESNS.ViewModels
+@inject ApplicationDbContext _context
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+<style>
+    .note-card {
+        position: relative;
+        max-width: 100%;
+        width: 100%;
+        background-color: #eae2b7;
+        border-radius: 0;
+        padding: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
 
-<div class="conteiner">
+    @@media (max-width: 600px) {
+        .note-card {
+            width: 100%;
+        }
+    }
+
+
+    .note-card::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.2);
+        clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
+
+
+
+    .note-card p {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+
+    .note-card .send-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        align-items: center;
+        margin-left: 5%;
+    }
+
+        .note-card .send-button button {
+            padding: 10px 20px;
+            background-color: mediumslateblue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    .note-card .date {
+        position: absolute;
+        top: 10px;
+        right: 30px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .note-card .settings {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .note-card .feedback {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 14px;
+        color: #888;
+    }
+
+        .note-card .feedback button {
+            background-color: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+    .note-card .image-container {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom: 50px;
+    }
+
+        .note-card .image-container img {
+            max-width: 80%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+
+    .note-card .image-container-upload {
+        text-align: center; /* Görseli merkeze hizala */
+        margin-top: 20px; /* p ile arasında boşluk bırak */
+        margin-bottom: 50px;
+        width: 50%;
+        height: auto;
+    }
+
+        .note-card .image-container-upload img {
+            max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+            height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+        }
+
+
+
+    .profile-background {
+        /*background-image: url("/images/seiser-alm-gf6d900d00_1280.jpg");*/
+        background-size: cover;
+        background-position: center center;
+        height: 275px;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-picture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .username {
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .note-card textarea {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+
+    #dropArea {
+        width: 50%;
+    }
+
+    #ImagePath {
+        width: 50%;
+    }
+
+    .explain {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+        background-color: transparent;
+        resize: none;
+    }
+</style>
+@model NewCommentViweModel
+
+<div class="note-card">
     <form  method="post" asp-controller="Comment" asp-action="NewComment" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Comment" class="control-label"></label>
-            <input asp-for="Comment" class="form-control" />
+            <textarea asp-for="Comment" oninput="autoResize(this)" placeholder="You can enter your comment here"></textarea>
             <span asp-validation-for="Comment" class="text-danger"></span>
         </div>
         <div>
             <input type="hidden" asp-for="PostId" value="@Model.PostId" />
         </div>
         
-        <div class="form-group">
-            <input type="submit" value="Comment" class="btn btn-primary" />
-        </div>
+        <div class="send-button">
+                <button type="submit" value="Comment">Send</button>
+            </div>
     </form>
 </div>
+<script>
+    function autoResize(p) {
+        p.style.height = 'auto';
+        p.style.height = p.scrollHeight + 'px';
+    }
+</script>

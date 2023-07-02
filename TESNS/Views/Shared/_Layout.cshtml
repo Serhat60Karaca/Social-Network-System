@@ -233,14 +233,34 @@
                     searchResults.innerHTML = ''; // Clear the search results when hiding the dropdown
                 }, 200); // Adjust the delay time (in milliseconds) as needed
             }
+            function copyURL(itemId, button) {
+                var dummyElement = document.createElement("input");
+                var url = window.location.origin + "/post/getpost/" + itemId;
 
-            // Event listener to hide search results when clicking outside the search bar
-            document.addEventListener('click', function (event) {
-                const searchForm = document.querySelector('.dropdown');
-                if (!searchForm.contains(event.target) && !searchResults.contains(event.target)) {
-                    hideDropdown('search-results');
-                }
-            });
+                document.body.appendChild(dummyElement);
+                dummyElement.value = url;
+                dummyElement.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummyElement);
+
+                button.textContent = "URL Copied";
+
+                // Değişiklik yapılacak span elementini seçiyoruz
+                var iconSpan = button.nextElementSibling;
+
+                // İkonu değiştiriyoruz
+                iconSpan.innerHTML = '<i class="bi bi-clipboard-check"></i>';
+
+                setTimeout(function () {
+                    button.textContent = "Share";
+
+                    // İkona geri dönüş yapılıyor
+                    iconSpan.innerHTML = '<i class="bi bi-send-fill"></i>';
+                }, 3000);
+            }
+
+
+
         </script>
     </header>
 

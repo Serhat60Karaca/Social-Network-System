@@ -1,9 +1,158 @@
-﻿@model Post
+﻿@using Microsoft.AspNetCore.Identity
+@using TESNS.Models
+@using TESNS.Models.Authentication
+@using TESNS.ViewModels
+@inject ApplicationDbContext _context
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@model Post
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+
+}
 
 @{
     Layout = "_Layout";
 }
+<div style="display:flex; flex-direction:column; flex-wrap:nowrap;margin:0px;padding:0px;">
+    
+@{
 
+                    <div style="" class="modal" id="reportModal_@Model.Id">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Report Community Rule Violation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @{
+                            var author = _context.Users.FirstOrDefault(i => i.Id == Model.UserId);
+                            var authorName = author?.UserName;
+                                            }
+                                            <p>Why do you want to report @authorName?</p>
+                                            <textarea class="explain" placeholder="Explain here"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form method="post" asp-action="DeletePost" asp-controller="Post">
+                                                <input type="hidden" name="id" value="@Model.Id" />
+                                                <button type="submit" class="btn btn-danger">Report</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                    <div style="" class="modal" id="deleteModal_@Model.Id">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">WARNING</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete this post? The delete process cannot be undone!
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form method="post" asp-action="DeletePost" asp-controller="Post">
+                                                <input type="hidden" name="id" value="@Model.Id" />
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+
+        var user = _context.Users.FirstOrDefault(u => u.Id == Model.UserId);
+        var profilePhoto = user?.ProfilePhoto;
+        var userName = user?.UserName;
+
+                    <div class="note-card">
+                                <div class="user-profile">
+                                    <img class="profile-picture" src="@profilePhoto">
+                                    <div class="username">@userName</div>
+                                </div>
+                                <div class="text-break">@Model.Text</div>
+                                <div class="date">@Model.PublishDate</div>
+                                <div class="settings">
+                                    <a href="#" style="text-decoration:none;" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @if (SignInManager.IsSignedIn(User))
+                    {
+                        if (currentUser.Id == Model.UserId)
+                        {
+                                                <li><a class="dropdown-item" href="#">Update <i class="bi bi-pencil"></i></a></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_@Model.Id">Delete <i class="bi bi-trash"></i></a>
+                                                </li>
+                                                <li class="dropdown-caret"></li>
+                        }
+                        else
+                        {
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@Model.Id">Report <i class="bi bi-flag"></i></a></li>
+                                                <li class="dropdown-caret"></li>
+                        }
+                    }
+                    else
+                    {
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal_@Model.Id">Report <i class="bi bi-flag"></i></a></li>
+                                            <li class="dropdown-caret"></li>
+                    }
+
+                                    </ul>
+
+                                </div>
+
+                                <div class="image-container">
+                                    <img src="@Model.ImagePath">
+                                </div>
+                                
+                                
+                                <div class="feedback" style="display: flex; justify-content: center; align-items: center;">
+                                    <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
+                                        <a style="btn btn-primary;text-decoration: none;color: #888;">Like</a>
+                                        <span>@Model.LikeCount <i class="bi bi-heart-fill"></i></span>
+                                    </div>
+                                    <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
+                                        <a style="btn btn-primary;text-decoration: none;color: #888;" asp-controller="Post" asp-action="GetPost" asp-route-id="@Model.Id">Comment</a>
+                                        <span>@Model.CommentCount <i class="bi bi-chat-left-fill"></i></span>
+                                    </div>
+                                    <div style="border: 1px solid; border-radius: 5px; margin-left: 10px; padding: 7px 10px 7px 10px;">
+                                        <a href="#" class="copyButton" onclick="copyURL('@Model.Id', this)" style="btn btn-primary; text-decoration: none; color: #888;">Share</a>
+                                        <span><i class="bi bi-send-fill"></i></span>
+                                    </div>
+                                </div>
+
+                    </div>
+                    <div class="conteiner">
+                        <partial name="_NewCommentPartial" model='new NewCommentViweModel {  PostId = Model.Id }'></partial>
+                    </div>
+
+                    <div class="conteiner ">
+                        <h3>Comments</h3>
+
+                    @foreach(var item in Model.Comments)
+    {
+                    <div class="note-card">
+                            <div class="user-profile">
+                                <img class="profile-picture" src="@item.User.ProfilePhoto">
+                                <div class="username">@item.User.UserName</div>
+                            </div>
+                    <p>@item.CommentText</p>
+                    </div>
+    }
+
+                    </div>
+
+
+        }
+</div>
+        <!--
 <div class="container bg-warning">
     
         <div class="conteiner ">
@@ -15,21 +164,7 @@
                 <span>@Model.CommentCount <i class="bi bi-chat-left-fill"></i></span>
             </p>
 
-            <div class="conteiner ">
-                <partial name="_NewCommentPartial" model='new NewCommentViweModel {  PostId = Model.Id }'></partial>
-            </div>
-
-            <div class="conteiner ">
-                <h3>Comments</h3>
-
-                @foreach(var item in Model.Comments)
-                {
-                    <div class="container " style="background-color:darkgoldenrod; ">
-                        <h4>@item.User.UserName</h4>
-                        <p>@item.CommentText</p>
-                    </div>
-                }
-            </div>
-
+           
         </div>
 </div>
+-->

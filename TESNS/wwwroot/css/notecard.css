@@ -85,10 +85,10 @@
 }
 
 .note-card .feedback {
-    position: absolute;
+    position: initial;
     bottom: 10px;
     left: 10px;
-    font-size: 14px;
+    font-size: 15px;
     color: #888;
 }
 
@@ -107,7 +107,7 @@
 }
 
     .note-card .image-container img {
-        max-width: 50%; /* Görselin maksimum genişliğini ayarla */
+        max-width: 80%; /* Görselin maksimum genişliğini ayarla */
         height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
     }
 
