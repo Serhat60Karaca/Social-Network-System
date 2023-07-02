@@ -1,149 +1,108 @@
-﻿* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+﻿.navbar {
+    height: 80px; /* Yeni yükseklik değeri */
+    background-color: #f2f5ff;
 }
+
+.navbar-nav .nav-link {
+    font-size: 17px; /* Yeni font boyutu değeri */
+}
+
+#search-results {
+    display: none;
+    position: absolute;
+    width: calc(100% - 176px); /* Adjust this value based on your search form width */
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    background-color: #f2f5ff;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border-color: #f2f5ff;
+}
+
+    #search-results li {
+        padding: 5px;
+    }
 
 body {
-    background-color: white;
+    background-color: #6260de;
 }
 
-/*Navbar Section*/
-nav {
-    background: #222222;
-    padding: 10px 40px 10px 70px;
-    border: 1px solid #000;
-    border-left: none;
-    border-right: none;
+.dropdown-caret {
+    position: absolute;
+    top: -8px; /* Adjust this value as needed */
+    left: calc(50% - 4px); /* Adjust this value as needed */
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    rotate: calc(180);
+    border-bottom: 8px solid #f8f9fa; /* Adjust the color as needed */
+    border-top: 8px solid black;
 }
 
-    nav ul {
-        display: flex;
-        list-style: none;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-    }
+#search-results.dropdown-menu {
+    display: block;
+    top: 100%;
+    width: 100%;
+}
 
-        nav ul li.logo {
-            flex: 1;
-            font-size: 30px;
-            font-weight: 700;
-            color:#f2f2f2;
-        }
-
-        nav ul div.items {
-            padding: 0 25px;
-            display: inline-flex;
-        }
-
-            nav ul div.items a {
-                text-decoration: none;
-                color: #f2f2f2;
-                font-size: 24px;
-                padding: 0 12px;
-            }
-
-.main-content {
+.custom-div {
+    background-color: #fff;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
 }
 
-nav ul div.items a:hover {
-    color: cyan;
+#boddiv {
+    background-color: #6260de;
 }
 
-nav ul .search-icon {
-    height: 40px;
-    width: 240px;
-    display: flex;
-    background: #f2f2f2;
-    border-radius: 5px;
+.nfooter ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0
 }
 
-    nav ul .search-icon input {
-        height: 100%;
-        width: 200px;
-        border: none;
-        outline: none;
-        padding: 0 10px;
-        color: #000;
-        font-size: 16px;
-        border-radius: 5px 0 0 5px;
+.nfooter li {
+    padding: 4px;
+    color: #C5CAE9;
+}
+
+.nfooter ul > li:hover {
+    color: #957bda;
+    cursor: pointer
+}
+
+.nfooter hr {
+    border-width: 3px
+}
+
+.nfooter .card {
+    padding: 2% 7%
+}
+
+.nfooter .social > i {
+    padding: 1%;
+    font-size: 15px
+}
+
+    .nfooter .social > i:hover {
+        color: #957bda;
+        cursor: pointer
     }
 
-    nav ul .search-icon .icon {
-        height: 100%;
-        width: 40px;
-        line-height: 40px;
-        text-align: center;
-        border: 1px solid #cccccc;
-        border-radius: 0 5px 5px 0;
-        cursor: pointer;
-    }
-
-        nav ul .search-icon .icon:hover {
-            background: #e6e6e6;
-        }
-
-        nav ul .search-icon .icon span {
-            color: #222222;
-            font-size: 18px;
-        }
-
-nav ul li.btn {
-    font-size: 29px;
-    flex: 1;
-    padding: 0 40px;
-    display: none;
+.nfooter .policy > div {
+    padding: 4px
 }
 
-    nav ul li.btn span {
-        height: 42px;
-        width: 42px;
-        text-align: center;
-        line-height: 42px;
-        border: 1px solid #151515;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-/*Footer Section*/
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2px;
-    background: #222222;
-    text-align: center;
+.nfooter .heading {
+    font-family: 'Titillium Web', sans-serif;
+    color: black
 }
 
-.bottom {
-    padding: 20px;
-    font-size: 18px;
+.nfooter .divider {
+    border-top: 2px solid
 }
-
-    .bottom ul {
-        display: flex;
-        list-style: none;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        color:#f2f2f2
-    }
-
-        .bottom ul div.items {
-            padding-left: 120px;
-            display: inline-flex;
-        }
-
-            .bottom ul div.items a {
-                color: #f2f2f2;
-                font-size: 18px;
-                padding-left: 12px;
-            }
-
-                .bottom ul div.items a:hover {
-                    color: cyan;
-                }

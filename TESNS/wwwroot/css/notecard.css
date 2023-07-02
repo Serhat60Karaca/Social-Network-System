@@ -1,0 +1,158 @@
+﻿body {
+}
+#user-content {
+    display: block;
+    min-width: 100%;
+    height: 1000px;
+    overflow:auto;
+}
+.note-card {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    background-color: yellow;
+    border-radius: 0;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .note-card {
+        width: 100%;
+    }
+}
+
+
+.note-card::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+}
+
+
+
+.note-card p {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    resize: none;
+}
+
+.note-card .send-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    align-items: center;
+    margin-left: 5%;
+}
+
+    .note-card .send-button button {
+        padding: 10px 20px;
+        background-color: mediumslateblue;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+.note-card .date {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    font-size: 14px;
+    color: #888;
+}
+
+.note-card .settings {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+.note-card .feedback {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+    .note-card .feedback button {
+        background-color: transparent;
+        border: none;
+        color: #888;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+.note-card .image-container {
+    text-align: center; /* Görseli merkeze hizala */
+    margin-top: 20px; /* p ile arasında boşluk bırak */
+    margin-bottom: 20px;
+}
+
+    .note-card .image-container img {
+        max-width: 50%; /* Görselin maksimum genişliğini ayarla */
+        height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+    }
+
+.note-card .image-container-upload {
+    text-align: center; /* Görseli merkeze hizala */
+    margin-top: 20px; /* p ile arasında boşluk bırak */
+    margin-bottom: 20px;
+    width: 50%;
+    height: auto;
+}
+
+    .note-card .image-container-upload img {
+        max-width: 100%; /* Görselin maksimum genişliğini ayarla */
+        height: auto; /* Orantılı olarak yüksekliği otomatik ayarla */
+    }
+
+
+.profile-edit-btn {
+    background-color: yellow;
+    margin: 7px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.profile-background {
+    background-image: url("/images/seiser-alm-gf6d900d00_1280.jpg");
+    background-size: cover;
+    background-position: center center;
+    height: 275px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    margin-left: 10px;
+    font-weight: bold;
+}
+

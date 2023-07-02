@@ -17,121 +17,18 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
-    <!--
     <link rel="stylesheet" href="~/css/navbar.css" />
+    <link rel="stylesheet" href="~/css/notecard.css" />
+
+    
+    
+    <!--
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TESNS.styles.css" asp-append-version="true" />
     -->
     <style>
 
-        .navbar {
-            height: 80px; /* Yeni yükseklik değeri */
-            background-color: #f2f5ff;
-        }
-
-        .navbar-nav .nav-link {
-            font-size: 17px; /* Yeni font boyutu değeri */
-        }
-
-        #search-results {
-            display: none;
-            position: absolute;
-            width: calc(100% - 176px); /* Adjust this value based on your search form width */
-            max-height: 200px;
-            overflow-y: auto;
-            list-style-type: none;
-            background-color: #f2f5ff;
-            padding: 5px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border-color: #f2f5ff;
-        }
-
-            #search-results li {
-                padding: 5px;
-            }
-
-        body {
-            background-color: #6260de;
-        }
-
-        .dropdown-caret {
-            position: absolute;
-            top: -8px; /* Adjust this value as needed */
-            left: calc(50% - 4px); /* Adjust this value as needed */
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            rotate: calc(180);
-            border-bottom: 8px solid #f8f9fa; /* Adjust the color as needed */
-            border-top: 8px solid black;
-        }
-
-        #search-results.dropdown-menu {
-            display: block;
-            top: 100%;
-            width: 100%;
-        }
-
-        .custom-div {
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-        }
-
-        #boddiv {
-            background-color: #6260de;
-        }
-
-        .nfooter ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0
-        }
-
-        .nfooter li {
-            padding: 4px;
-            color: #C5CAE9;
-        }
-
-        .nfooter ul > li:hover {
-            color: #957bda;
-            cursor: pointer
-        }
-
-        .nfooter hr {
-            border-width: 3px
-        }
-
-        .nfooter .card {
-            padding: 2% 7%
-        }
-
-        .nfooter .social > i {
-            padding: 1%;
-            font-size: 15px
-        }
-
-            .nfooter .social > i:hover {
-                color: #957bda;
-                cursor: pointer
-            }
-
-        .nfooter .policy > div {
-            padding: 4px
-        }
-
-        .nfooter .heading {
-            font-family: 'Titillium Web', sans-serif;
-            color: black
-        }
-
-        .nfooter .divider {
-            border-top: 2px solid
-        }
+        
     </style>
 </head>
 <body>
@@ -142,79 +39,90 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-action="Index" asp-controller="Home" >Home</a>
+                            <a class="nav-link active" asp-action="Index" asp-controller="Home"><i style="font-size:25px;" class="bi bi-house-door"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Explore</a>
+                            <a class="nav-link" href="#"><i style="font-size:25px;" class="bi bi-map"></i></a>
                         </li>
-                        @if(SignInManager.IsSignedIn(User)){
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
-                                My Communities
-                            </a>
-                            <ul class="dropdown-menu notifications" id="communities-dropdown" onmouseover="showDropdown('communities-dropdown')" onmouseout="hideDropdown('communities-dropdown')">
-                                <li><a class="dropdown-item" href="#">Community 1</a></li>
-                                <li><a class="dropdown-item" href="#">Community 2</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Community 3</a></li>
-                                <li class="dropdown-caret"></li>
-                            </ul>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i style="font-size:25px;" class="bi bi-people"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="right:inherit;" aria-labelledby="navbarDropdownMenuLink2">
+                                    <li class="dropdown-header"> Communities</li>
+                                    <li class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="40" height="40" src="/images/max-fold-gc1ce44cb9_1280.jpg" /> <p> Formula 1</p></a></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="40" height="40" src="/images/turk.png" /> <p> Turkiye</p></a></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="40" height="40" src="/images/movie.png" /> <p> Movies</p></a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="ShowAllProfiles" asp-controller="Profile">Other Users</a>
                             </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link" asp-action="CreatePost" asp-controller="Post">Crate a Post</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="ListPosts" asp-controller="Post">My Posts</a>
-                            </li>-->
+                            <!--<li class="nav-item">
+                                <a class="nav-link" asp-action="CreatePost" asp-controller="Post">Crate a Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="ListPosts" asp-controller="Post">My Posts</a>
+                                </li>-->
                         }
                     </ul>
                     <form class="d-flex mx-auto dropdown" role="search">
                         <input style="border: solid #1f487e; border-width: 0.2px;width:350px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" oninput="updateSearchResults(this.value)">
                         <ul id="search-results" class="dropdown-menu"></ul>
                     </form>
-                    <ul class="navbar-nav ml-auto">
-                        @if(SignInManager.IsSignedIn(User)){
-                            <li class="nav-item dropdown notifications">
-                                <a class="nav-link mt-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
-                                    Notifications
+                    <ul class="navbar-nav ms-auto mx-5">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown" id="navbarDropdownMenuLink3" role="button" data-bs-toggle="dropdown" aria-expanded="false" asp-action="ProfileDetail" asp-controller="Profile">
+                                    <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45"> @currentUser.UserName
                                 </a>
-                                <ul class="dropdown-menu notifications" id="notifications-dropdown" onmouseover="showDropdown('notifications-dropdown')" onmouseout="hideDropdown('notifications-dropdown')">
-                                    <li><a class="dropdown-item" href="#">Notification 1</a></li>
-                                    <li><a class="dropdown-item" href="#">Notification 2</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Notification 3</a></li>
-                                    <li class="dropdown-caret"></li>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink2">
+                                    <li><a class="dropdown-item" asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@currentUser.Id">Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">Bildirim 2</a></li>
+                                    <li><a class="dropdown-item" href="#">Bildirim 3</a></li>
                                 </ul>
                             </li>
-                       
-                        <li class="nav-item dropdown">
-
-                                <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false" asp-action="ProfileDetail" asp-controller="Profile">
-                                    <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@currentUser.ProfilePhoto" alt="Profile Image" width="45" height="45"> @currentUser.UserName 
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span style="display: flex; align-items: center;">
+                                        <i style="font-size:25px" class="bi bi-chat"></i>
+                                    </span>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-action="LogOut" asp-controller="User">
-                                Sign Out
-                                <i class="bi bi-box-arrow-right"></i>
-                            </a></li>
-                                    <li><a class="dropdown-item" asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@currentUser.Id">Profile</a></li> <!--Serhatım iconu hallet-->
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Notification 3</a></li>
-                                    <li class="dropdown-caret"></li>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i style="font-size:25px;" class="bi bi-bell"></i>
+                                    <span style="position:absolute; font-size:10px;" class="badge bg-danger">5</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink2">
+                                    <li class="dropdown-header"> Notifications</li>
+                                    <li class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="30" height="30" src="/images/default_male_avatar.jpg" /> <p>Sent You friend request</p></a></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="30" height="30" src="/images/default_female_avatar.jpg" /> <p>Liked your post</p></a></li>
+                                    <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="30" height="30" src="/images/smileyy.png" /> <p>Made Comment on your post "Are you stup..."</p></a></li>
                                 </ul>
-                        </li>
-                           
-                        <li class="nav-item">
+                            </li>
                             
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="LogOut" asp-controller="User">
+                                    <span style="display: flex; align-items: center;">
+                                        <i style="font-size:25px; margin-left:5px;" class="bi bi-box-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+                            
                         }
-                        else 
+                        else
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Login" asp-controller="User">Login</a>
@@ -224,10 +132,14 @@
                             </li>
                         }
                     </ul>
-                </div>
-            </div>
-        </nav>
 
+                </div>
+                </div>
+</nav>
+
+
+                
+                
 
         <script>
             const searchResults = document.getElementById('search-results');
@@ -288,9 +200,6 @@
                 Here will be about bout User
             </div>
             <div class="col-6 d-flex align-items-center justify-content-center">
-                <div id="typing-effect">
-                    <span id="text"></span>
-                </div> 
                 @RenderBody()
             </div>
             <div class="col-3 d-flex justify-content-center" style="border-left: solid gray;border-width:1px;">
