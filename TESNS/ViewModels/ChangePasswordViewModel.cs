@@ -7,6 +7,7 @@ namespace TESNS.ViewModels
         [Required(ErrorMessage = " Code is Required")]
         public string Code { get; set; }
         [Required(ErrorMessage = "new password is Reqired")]
+        [DataType(DataType.Password)]
         public string NewPassword { get; set; }
         [Required]
         [DataType(DataType.Password)]

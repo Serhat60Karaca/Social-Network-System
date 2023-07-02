@@ -106,7 +106,11 @@ namespace TESNS.Controllers
                 mimeMessage.From.Add(mailboxAddressFrom);
                 mimeMessage.To.Add(mailboxAddressTo);
                 var bodyBuilder = new BodyBuilder();
-                user.PasswordResetToken = CreateRandomToken();
+                Random rnd = new Random();
+                var random = rnd.Next(10000, 100000);
+                var randomm = System.Convert.ToString(random);
+                user.PasswordResetToken = randomm;
+                //user.PasswordResetToken = CreateRandomToken();
                 _context.SaveChanges();
                 bodyBuilder.TextBody = "reset password code:" + user.PasswordResetToken;
                 mimeMessage.Body = bodyBuilder.ToMessageBody();
