@@ -1,14 +1,15 @@
-﻿@model IEnumerable<Community>
+﻿@model ICollection<Community>
 <div>
 <div>
-   
+   <form asp-action="CreateCommunity" asp-controller="Community">
+       <input type="submit" value="Create Community"/>
+   </form>
 </div>
 <div>
 @foreach(var item in Model)
 {
-    <p><img src="@item.Logo" /></p>
-    <p> @item.Name </p>
-    <p> @item.Description </p>
+            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@item.Logo" alt="Community Logo" width="45" height="45">
+            <a asp-action="CommunityDetail" asp-controller="Community" asp-route-id="@item.Id">@item.Name </a>   
 }
 </div>
 </div>

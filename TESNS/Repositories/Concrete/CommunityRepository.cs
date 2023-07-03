@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 using TESNS.Models;
+using TESNS.Models.Authentication;
 
 namespace TESNS.Repositories.Concrete
 {
@@ -26,8 +27,7 @@ namespace TESNS.Repositories.Concrete
 
         public async Task<IEnumerable<Community>> GetAllCommunities()
         {
-            var communities = await _context.Communities.ToListAsync();
-            return communities;
+            return await _context.Communities.ToListAsync();
         }
 
         public async Task<Community> GetCommunityWithInviteLink(string inviteLink)
@@ -52,6 +52,16 @@ namespace TESNS.Repositories.Concrete
         {
             _context.Update(community);
             return Save();
+        }
+
+        public async Task<Community> GetCommunityWithId(int id)
+        {
+            return await _context.Communities.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<Community>> GetCommunitiesWithOwnerId(int id)
+        {
+            return await _context.Communities.Where(i => i.OwnerId == id).ToListAsync();
         }
     }
 }

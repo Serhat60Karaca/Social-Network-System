@@ -105,7 +105,7 @@
                                     <i style="font-size:25px;" class="bi bi-people"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" style="right:inherit;" aria-labelledby="navbarDropdownMenuLink2">
-                                    <li class="dropdown-header"> Communities</li>
+                                    <li class="dropdown-header"> <a asp-action="Index" asp-controller="Community">Communities</a></li>
                                     <li class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="40" height="40" src="/images/max-fold-gc1ce44cb9_1280.jpg" /> <p> Formula 1</p></a></li>
                                     <li><a class="dropdown-item" style="display:flex;" href="#"><img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 4px;image-rendering:optimizeQuality;" width="40" height="40" src="/images/turk.png" /> <p> Turkiye</p></a></li>
@@ -137,7 +137,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink2">
                                     <li><a class="dropdown-item" asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@currentUser.Id">Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">Bildirim 2</a></li>
+                                    <li><a class="dropdown-item" asp-action="MyCommunities" asp-controller="Community">My Communities</a></li>
                                     <li><a class="dropdown-item" href="#">Bildirim 3</a></li>
                                 </ul>
                             </li>
