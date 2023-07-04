@@ -10,6 +10,7 @@ namespace TESNS.Repositories
         Task<IEnumerable<Community>> GetCommunitiesWithOwnerId(int id);
         Task<Community> GetCommunityWithInviteLink(string inviteLink);
         Task<Community> GetCommunityWithId(int id);
+        
         bool Add(Community community);
         bool Delete(Community community);
         bool Update(Community community);

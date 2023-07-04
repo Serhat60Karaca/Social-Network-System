@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model CommunityDetailViewModel
+@inject ApplicationDbContext _context;
 @inject UserManager<AppUser> userManager;
 @{
     var currentUser = await userManager.GetUserAsync(User);
+    var checkJoin = _context.CommunityUsers.FirstOrDefault(i => i.CommunityId == Model.Id && i.UserId == currentUser.Id);
 }
 <div class="container emp-profile d-block">
     <form method="post">
@@ -14,20 +16,21 @@
                             <img src="@Model.LogoUrl" style="width: 90%; height: 130%;" />
                         </div>
                         <div class="card-body text-center">
-                            @if (Model.OwnerId == currentUser.Id) { 
-                            <div class="d-flex justify-content-end">
-
-                                <button asp-action="EditCommunity" asp-controller="Community" asp-route-id="Model.Id" class="btn btn-primary mb-3 d-flex flex-row flex-nowrap" style="font-size:20px;margin:1px;"> <h5>Edit Community</h5> <i style="font-size:revert-layer;" class="bi bi-pencil"></i></button>
-                            </div>
-                            }
+   
                             <img src="@Model.LogoUrl" class="rounded-circle mb-3" alt="Profil Resmi" style="width: 150px; height: 150px; object-fit: cover; position: relative; margin-top: -125px;">
                             <h5 class="card-title">@Model.Name</h5>
                             <p class="card-text">@Model.Description</p>
-                            <button class="btn btn-primary mb-3" asp-action="JoinCommunity" asp-controller="Community">Join</button>
+                            @if (checkJoin == null) { 
+                            <input type="submit" class="btn btn-primary mb-3" asp-action="JoinCommunity" value="Join" asp-controller="Community" asp-route-id="@Model.Id"/>
+                            }
+                            else
+                            {
+                            <input type="submit" class="btn btn-primary mb-3" asp-action="QuitCommunity" value="Quit" asp-controller="Community" asp-route-id="@Model.Id" />
+                            }
                             <hr />
                             <div class="row">
                                 <div class="col">
-                                    <p class="text-muted">Followers</p>
+                                    <input type="submit" class="btn btn-primary mb-3" asp-action="ShowCommunityUsers" value="Users" asp-controller="Community" asp-route-id="@Model.Id" />
                                     <p class="lead">100</p>
                                 </div>
                                 <div class="col">

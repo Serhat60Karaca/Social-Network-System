@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model TESNS.ViewModels.EditCommunityViewModel
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "EditCommunity";
+    var currentUser = await UserManager.GetUserAsync(User);
+    //var currComm = _communityRepository.GetCommunityWithId(@Model.Id);
+}
+<link rel="stylesheet" href="~/css/detailprofile.css" />
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="@Model.LogoUrl"><span class="font-weight-bold">@Model.Name</span><span class="text-black-50">@Model.Description</span><span> </span></div>
+        </div>
+        <!--<div class="form-group">
+            <h5 style="margin-bottom:6px;">Cover Photo</h5>
+            <input asp-for="CoverPhoto" value="https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg" type="file" class="form-control" />
+            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+        </div>
+        *{
+            Model.Id = currComm.Id;
+        }-->
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <form asp-action="EditCommunity" asp-controller="Community" enctype="multipart/form-data">
+                    <div class="row mt-2">
+                        <div class="col-md-6"><h5 style="margin-bottom:6px;">Name</h5><input asp-for="Name" class="form-control" placeholder="Name" value="@Model.Name"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><h5 style="margin-bottom:6px;">Description</h5><input asp-for="Description" class="form-control" value="@Model.Description" placeholder="Description"></div>
+                        <div class="form-group">
+                            <h5 style="margin-bottom:6px;">Logo</h5>
+                            <input asp-for="Logo" value="http://res.cloudinary.com/daw0gahvl/image/upload/v1687924653/upz1ztj9ue8a7thqdzie.jpg" type="file" class="form-control" />
+                            <span asp-validation-for="Logo" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                            <h5 style="margin-bottom:6px;">Cover Photo</h5>
+                            <input asp-for="CoverPhoto" value="https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg" type="file" class="form-control" />
+                            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+                        </div>*@
+                        <div class="mt-5 text-center" style="margin-top:10px"><input type="submit" value="Save" class="btn btn-primary profile-button"></div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+

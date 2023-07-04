@@ -4,7 +4,7 @@ namespace TESNS.ViewModels
 {
     public class CreateCommunityViewModel
     {
-        [Required(ErrorMessage = " Name is required")]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         //[Required(ErrorMessage = " Abbreviation is required")]
         //public string Abbreviation { get; set; }

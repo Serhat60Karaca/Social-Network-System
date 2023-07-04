@@ -6,8 +6,11 @@
     <div>
         @foreach (var item in Model)
         {
-            <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@item.Logo" alt="Community Logo" width="45" height="45">
-                @item.Name
+            <p> <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@item.Logo" alt="Community Logo" width="45" height="45">
+                 <a asp-action="CommunityDetail" asp-controller="Community" asp-route-id="@item.Id">@item.Name </a>
+            @Html.ActionLink("EditCommunity","EditCommunity",new{id = item.Id})
+            </p>
+
            
         }
     </div>

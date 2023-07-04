@@ -14,8 +14,8 @@ namespace TESNS.Models
         public string? InviteLink { get; set; }
 
         //Connections
-        public ICollection<CommunityUser> Users { get; set; }
-        public ICollection<CommunityPost> Posts { get; set; }
+        public ICollection<CommunityUser>? Users { get; set; }
+        public ICollection<CommunityPost>? Posts { get; set; }
 
         [ForeignKey("Owner")]
         public int OwnerId { get; set; }
