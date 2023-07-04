@@ -5,6 +5,6 @@ namespace TESNS.Services
 {
     public interface IRecommendationService
     {
-        Task<List<Post>> GetRecommendedPostsAsync(int userId, int maxPost, DbContextOptions<ApplicationDbContext> options);
+        Task<List<Post>> GetRecommendedPostsAsync(int userId, int maxPost);
     }
 }

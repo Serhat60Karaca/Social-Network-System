@@ -114,12 +114,13 @@ namespace TESNS.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> GetRecommendations(){
-            var currentUser = _userManager.GetUserAsync(User);
-            var options = new DbContextOptions<ApplicationDbContext>();
-            var recommendations = await _recommendationService.GetRecommendedPostsAsync(currentUser.Id, 10, options);
+        public async Task<IActionResult> GetRecommendations()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var recommendations = await _recommendationService.GetRecommendedPostsAsync(currentUser.Id, 10);
             return View(recommendations);
         }
+
 
         public async Task<IActionResult> ListPosts()
         {
