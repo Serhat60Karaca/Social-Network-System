@@ -6,6 +6,7 @@ using TESNS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TESNS.Services;
+using TESNS.Repositories;
 
 namespace TESNS.Controllers
 {
@@ -16,19 +17,23 @@ namespace TESNS.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IPhotoService _photoService;
+        private readonly IUserInteractionRepository _userInteractionRepository;
+        private readonly IRecommendationService _recommendationService;
 
-        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService,SignInManager<AppUser> signInManager)
+        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService,SignInManager<AppUser> signInManager, IUserInteractionRepository userInteractionRepository, IRecommendationService recommendationService)
         {
             _context = context;
             _userManager = userManager;
             _photoService = photoService;
             _signInManager = signInManager;
+            _userInteractionRepository = userInteractionRepository;
+            _recommendationService = recommendationService; 
         }
 
 
 
         [HttpGet]
-        public IActionResult GetPost(int id)
+        public async Task<IActionResult> GetPost(int id)
         {
             Post? post = _context.Posts.Find(id);
             if(post == null)
@@ -40,6 +45,18 @@ namespace TESNS.Controllers
             {
                 comment.User = _context.Users.Find(comment.UserId);
             }
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                UserInteraction interaction = new UserInteraction()
+                {
+                    UserId = currentUser.Id,
+                    PostId = post.Id,
+                    ViewDate = DateTime.Now.ToUniversalTime(),
+                };
+                _userInteractionRepository.Add(interaction);
+            }
+
             return View(post);
         }
 
@@ -52,7 +69,7 @@ namespace TESNS.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost(CreatePostViewModel postVM)
         {
-            
+
             Post newPost = new Post()
             {
                 Header = postVM.Header,
@@ -61,15 +78,16 @@ namespace TESNS.Controllers
                 Video = postVM.Video,
                 PublishDate = DateTime.Now.ToUniversalTime(),
                 EditedDate = DateTime.Now.ToUniversalTime(),
+                Categories = postVM.Categories.Replace(" ", "").Split(',').ToList(),
                 CommentCount = 0,
                 LikeCount = 0
             };
-            if(postVM.ImagePath != null)
+            if (postVM.ImagePath != null)
             {
                 var result = await _photoService.AddPhotoAsync(postVM.ImagePath);
                 newPost.ImagePath = result.Url.ToString();
             }
-            
+
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
             {
@@ -77,7 +95,16 @@ namespace TESNS.Controllers
                 return RedirectToAction("Login", "User");
             }
             newPost.UserId = currentUser.Id;
-            
+            foreach(var category in newPost.Categories)
+            {
+                Category _category = new Category();
+                var doesExist = _context.Categories.Where(i => i.Name == category).Any();
+                _category.Name = category;
+                if (!doesExist)
+                {
+                    _context.Categories.Add(_category);
+                }
+            }
             
             //newPost.CommunityId = _context.Communities.FirstOrDefault().Id;
 
@@ -85,6 +112,13 @@ namespace TESNS.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> GetRecommendations(){
+            var currentUser = _userManager.GetUserAsync(User);
+            var options = new DbContextOptions<ApplicationDbContext>();
+            var recommendations = await _recommendationService.GetRecommendedPostsAsync(currentUser.Id, 10, options);
+            return View(recommendations);
         }
 
         public async Task<IActionResult> ListPosts()

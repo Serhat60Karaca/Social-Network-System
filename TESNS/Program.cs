@@ -10,6 +10,7 @@ using TESNS.Repositories;
 using TESNS.Repositories.concretes;
 using TESNS.Services.Concrete;
 using TESNS.Repositories.Concrete;
+using TESNS.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommunityRepository, CommunityRepository>();
+builder.Services.AddScoped<IUserInteractionRepository, UserInteractionRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<ISendEmailService,SendEmailService>();
+builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetSection(key: "ConnectionStrings:DefaultConnection").Value));
 builder.Services.AddIdentity<AppUser, AppRole>(e =>
@@ -57,7 +60,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+//DataSeed.SeedCategories(app);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseStatusCodePages();
