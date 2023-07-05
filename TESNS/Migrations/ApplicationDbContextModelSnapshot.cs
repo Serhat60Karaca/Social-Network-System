@@ -322,29 +322,6 @@ namespace TESNS.Migrations
                     b.ToTable("Communities");
                 });
 
-            modelBuilder.Entity("TESNS.Models.CommunityPost", b =>
-                {
-                    b.Property<int>("CommunityPostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommunityPostId"));
-
-                    b.Property<int>("CommunityId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CommunityPostId");
-
-                    b.HasIndex("CommunityId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("CommunityPosts");
-                });
-
             modelBuilder.Entity("TESNS.Models.CommunityUser", b =>
                 {
                     b.Property<int>("CommunityUserId")
@@ -549,25 +526,6 @@ namespace TESNS.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("TESNS.Models.CommunityPost", b =>
-                {
-                    b.HasOne("TESNS.Models.Community", "Community")
-                        .WithMany("Posts")
-                        .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TESNS.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Community");
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("TESNS.Models.CommunityUser", b =>
                 {
                     b.HasOne("TESNS.Models.Community", "Community")
@@ -609,7 +567,7 @@ namespace TESNS.Migrations
             modelBuilder.Entity("TESNS.Models.Post", b =>
                 {
                     b.HasOne("TESNS.Models.Community", "Community")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("CommunityId");
 
                     b.HasOne("TESNS.Models.Authentication.AppUser", "User")

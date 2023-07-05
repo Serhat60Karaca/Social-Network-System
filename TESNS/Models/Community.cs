@@ -15,10 +15,10 @@ namespace TESNS.Models
 
         //Connections
         public ICollection<CommunityUser>? Users { get; set; }
-        public ICollection<CommunityPost>? Posts { get; set; }
+        public ICollection<Post>? Posts { get; set; }
 
         [ForeignKey("Owner")]
         public int OwnerId { get; set; }
-        public AppUser Owner { get; set; }
+        public AppUser? Owner { get; set; }
     }
 }

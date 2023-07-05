@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TESNS.Services;
 using TESNS.Repositories;
+using System.Reflection.Metadata;
+using TESNS.Repositories.Concrete;
 
 namespace TESNS.Controllers
 {
@@ -19,15 +21,18 @@ namespace TESNS.Controllers
         private readonly IPhotoService _photoService;
         private readonly IUserInteractionRepository _userInteractionRepository;
         private readonly IRecommendationService _recommendationService;
+        private readonly ICommunityRepository _communityRepository;
 
-        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService,SignInManager<AppUser> signInManager, IUserInteractionRepository userInteractionRepository, IRecommendationService recommendationService)
+        public PostController(ApplicationDbContext context, UserManager<AppUser> userManager, IPhotoService photoService,SignInManager<AppUser> signInManager, 
+            IUserInteractionRepository userInteractionRepository, IRecommendationService recommendationService,ICommunityRepository communityRepository)
         {
             _context = context;
             _userManager = userManager;
             _photoService = photoService;
             _signInManager = signInManager;
             _userInteractionRepository = userInteractionRepository;
-            _recommendationService = recommendationService; 
+            _recommendationService = recommendationService;
+            _communityRepository = communityRepository;
         }
 
 
@@ -60,18 +65,23 @@ namespace TESNS.Controllers
             return View(post);
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult CreatePost()
         {
             CreatePostViewModel createPostViewModel = new CreatePostViewModel();
-            return PartialView("_SendProduct", createPostViewModel);
-        }
+            //createPostViewModel.CommunityId= id ;
+            return PartialView("_SendProduct",createPostViewModel);
+            //return PartialView("_SendProduct");
+            
+        }*/
         [HttpPost]
-        public async Task<IActionResult> CreatePost(CreatePostViewModel postVM)
+        public async Task<IActionResult> CreatePost(CreatePostViewModel postVM,int? id)
         {
-
+            var currUser = await _userManager.GetUserAsync(User);
+           
             Post newPost = new Post()
             {
+                
                 Header = postVM.Header,
                 Text = postVM.Text,
                 //ImagePath = result.Url.ToString(),
@@ -82,6 +92,13 @@ namespace TESNS.Controllers
                 CommentCount = 0,
                 LikeCount = 0
             };
+            if (id != null)
+            {
+                newPost.CommunityId = id;
+            }
+            else {
+                newPost.CommunityId = null;
+            }
             if (postVM.ImagePath != null)
             {
                 var result = await _photoService.AddPhotoAsync(postVM.ImagePath);

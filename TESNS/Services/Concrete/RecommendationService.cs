@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using TESNS.Data.Enum;
-using TESNS.Migrations;
+//using TESNS.Migrations;
 using TESNS.Models;
 
 namespace TESNS.Services.Concrete

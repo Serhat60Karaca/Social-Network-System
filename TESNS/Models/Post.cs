@@ -25,8 +25,8 @@ namespace TESNS.Models
         public int? CommunityId { get; set; }
         public Community? Community { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Like>? Likes { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
         public List<string>? Categories { get; set; }    
     }
 }

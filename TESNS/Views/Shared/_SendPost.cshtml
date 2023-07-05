@@ -6,6 +6,7 @@
 @inject UserManager<AppUser> UserManager
 @inject SignInManager<AppUser> SignInManager
 @model TESNS.ViewModels.CreatePostViewModel
+
 <style>
     .note-card {
         position: relative;
@@ -184,7 +185,7 @@
     }
 </style>
 <div class="note-card">
-    <form method="post" asp-action="CreatePost" asp-controller="Post" enctype="multipart/form-data">
+    <form method="post" asp-action="CreatePost" asp-controller="Post" asp-route-id ="@Model.CommunityId" enctype="multipart/form-data">
         <div style="background-color:transparent;border:none;"> <input asp-for="Header" style="background-color:transparent;border:none; width:100%;" placeholder="What Is The Today's Topic ? ^-^" /> </div>
 
         <textarea asp-for="Text" oninput="autoResize(this)" placeholder="How Do You Feel Today ^-^"></textarea>

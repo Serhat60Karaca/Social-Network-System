@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TESNS.Migrations
 {
-    public partial class bu : Migration
+    public partial class whole : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,6 +38,8 @@ namespace TESNS.Migrations
                     Cinsiyet = table.Column<int>(type: "integer", nullable: false),
                     BirthDate = table.Column<string>(type: "text", nullable: true),
                     ProfilePhoto = table.Column<string>(type: "text", nullable: true),
+                    IsEmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    CoverPhoto = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -58,18 +61,16 @@ namespace TESNS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Communities",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Logo = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    InviteLink = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Communities", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,6 +180,30 @@ namespace TESNS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Communities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Logo = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    InviteLink = table.Column<string>(type: "text", nullable: true),
+                    OwnerId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Communities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Communities_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CommunityUsers",
                 columns: table => new
                 {
@@ -219,7 +244,8 @@ namespace TESNS.Migrations
                     CommentCount = table.Column<int>(type: "integer", nullable: false),
                     LikeCount = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    CommunityId = table.Column<int>(type: "integer", nullable: true)
+                    CommunityId = table.Column<int>(type: "integer", nullable: true),
+                    Categories = table.Column<List<string>>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -244,13 +270,46 @@ namespace TESNS.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CommentText = table.Column<string>(type: "text", nullable: true),
-                    PostId = table.Column<int>(type: "integer", nullable: false)
+                    PostId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInteractions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<int>(type: "integer", nullable: false),
+                    ViewDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInteractions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserInteractions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserInteractions_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -327,6 +386,16 @@ namespace TESNS.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Communities_OwnerId",
+                table: "Communities",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CommunityUsers_CommunityId",
                 table: "CommunityUsers",
                 column: "CommunityId");
@@ -355,6 +424,16 @@ namespace TESNS.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserInteractions_PostId",
+                table: "UserInteractions",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserInteractions_UserId",
+                table: "UserInteractions",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -375,10 +454,16 @@ namespace TESNS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "CommunityUsers");
 
             migrationBuilder.DropTable(
                 name: "Likes");
+
+            migrationBuilder.DropTable(
+                name: "UserInteractions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -390,10 +475,10 @@ namespace TESNS.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Communities");
 
             migrationBuilder.DropTable(
-                name: "Communities");
+                name: "AspNetUsers");
         }
     }
 }

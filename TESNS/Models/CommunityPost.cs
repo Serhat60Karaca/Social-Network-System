@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using TESNS.Models.Authentication;
 
-namespace TESNS.Models
+/*namespace TESNS.Models
 {
     public class CommunityPost
     {
@@ -15,4 +15,4 @@ namespace TESNS.Models
         public int PostId { get; set; }
         public Post Post { get; set; }
     }
-}
+}*/

@@ -57,8 +57,10 @@ namespace TESNS.Controllers
                 CreationDate = DateTime.Now.ToUniversalTime(),
                 OwnerId = user.Id
             };
+            
             _communityRepository.Add(newComm);
-            return View("Index");
+            var ListComm = _context.Communities.ToList();
+            return View("Index", ListComm);
         }
         [HttpGet]
         [Route("Community/CommunityDetail/{id}")]
@@ -74,6 +76,7 @@ namespace TESNS.Controllers
                 LogoUrl = currComm.Logo,
                 //Users = currComm.Users
             };
+            
             return View(commDetail);
         }
         [HttpGet]
@@ -176,6 +179,22 @@ namespace TESNS.Controllers
             
             return View(commUsers);
         }
+       /* [HttpGet]
+        public async Task<IActionResult> CreateCommunityPost(int id)
+        {
+            var post = new CreatePostViewModel();
+            post.CommunityId = id;
+
+            return View(post);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateCommunityPost(CreatePostViewModel commPostVM)
+        {
+            var commPost = new CommunityPost();
+            commPost.CommunityId = communityPostVM.CommunityId;
+            commPost.PostId = communityPostVM.PostId;
+            return View();
+        }*/
         //[HttpPost]
         //public async Task<IActionResult> JoinCommunity(Community currComm) 
         //{

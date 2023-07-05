@@ -16,8 +16,8 @@ namespace TESNS.Models
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public AppUser User { get; set; }
+        public AppUser? User { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
+        public ICollection<Like>? Likes { get; set; }
     }
 }
