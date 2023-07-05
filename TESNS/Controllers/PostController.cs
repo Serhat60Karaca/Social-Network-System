@@ -88,7 +88,7 @@ namespace TESNS.Controllers
                 Video = postVM.Video,
                 PublishDate = DateTime.Now.ToUniversalTime(),
                 EditedDate = DateTime.Now.ToUniversalTime(),
-                Categories = postVM.Categories.Replace(" ", "").Split(',').ToList(),
+                Categories = postVM.Categories?.Replace(" ", "").Split(',').ToList(),
                 CommentCount = 0,
                 LikeCount = 0
             };
@@ -112,6 +112,7 @@ namespace TESNS.Controllers
                 return RedirectToAction("Login", "User");
             }
             newPost.UserId = currentUser.Id;
+            if(newPost.Categories != null) { 
             foreach(var category in newPost.Categories)
             {
                 Category _category = new Category();
@@ -122,7 +123,7 @@ namespace TESNS.Controllers
                     _context.Categories.Add(_category);
                 }
             }
-            
+            }
             //newPost.CommunityId = _context.Communities.FirstOrDefault().Id;
 
             _context.Posts.Add(newPost);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using TESNS.Data.Enum;
-//using TESNS.Migrations;
+using TESNS.Migrations;
 using TESNS.Models;
 
 namespace TESNS.Services.Concrete
@@ -70,7 +70,7 @@ namespace TESNS.Services.Concrete
 
         private double CalculateJaccardSimilarity(List<string> category, List<Post> similarPosts)
         {
-            if (similarPosts == null || similarPosts.Count == 0)
+            if (similarPosts == null || similarPosts.Count == 0 || category == null)
             {
                 return 0;
             }
@@ -85,6 +85,7 @@ namespace TESNS.Services.Concrete
 
             return (double)intersect / union;
         }
+
 
 
     }
