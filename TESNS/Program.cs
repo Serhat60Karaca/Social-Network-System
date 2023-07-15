@@ -11,6 +11,7 @@ using TESNS.Repositories.concretes;
 using TESNS.Services.Concrete;
 using TESNS.Repositories.Concrete;
 using TESNS.Data;
+using TESNS.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<ISendEmailService,SendEmailService>();
 builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetSection(key: "ConnectionStrings:DefaultConnection").Value));
 builder.Services.AddIdentity<AppUser, AppRole>(e =>
 {
@@ -68,9 +70,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseAuthentication();
+app.MapHub<ChatHub>("/chatHub"); //buraya bakýcam
 app.MapControllers();
 /*
-app.MapControllerRoute(
+app.MapControllerRoute(Hus
     "PersonnelsDelete",
     "personnels/delete/{id?}",
     new { Controller = "Personnel", Action = "Delete" },

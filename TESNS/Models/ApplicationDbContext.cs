@@ -31,6 +31,7 @@ namespace TESNS.Models
         //public DbSet<CommunityPost> CommunityPosts { get; set; }
         public DbSet<UserInteraction> UserInteractions { get; set; } 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             

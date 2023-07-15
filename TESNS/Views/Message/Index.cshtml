@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TESNS.Models
+@using TESNS.Models.Authentication
+@inject UserManager<AppUser> UserManager
+
+@{
+    Layout = null;
+    var currentUser = UserManager.GetUserId(User);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Message</title>
+</head>
+<body>
+    <h1>Send Message to User</h1>
+    <h2 id="sendid">@currentUser</h2>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" placeholder="Enter user ID">
+    <label for="message">Message:</label>
+    <textarea id="message" rows="5" placeholder="Enter message"></textarea>
+    <button id="sendButton">Send Message</button>
+
+    <div id="messageContainer"></div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+        $(document).ready(function () {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chatHub")
+                .build();
+
+            connection.start()
+                .catch(error => {
+                    console.error(error);
+                });
+            $("#sendButton").on("click", function () {
+                const userId = $("#userId").val();
+                const message = $("#message").val();
+                const sendid = $("#sendid").text(); 
+                connection.invoke("SendMessageToUser", userId, message, sendid)
+                    .catch(error => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        $("#userId").val("");
+                        $("#messageContainer").append("<p>" + message + "</p>");
+                        $("#message").val("");
+                    });
+                
+            });
+
+            connection.on("ReceiveMessage", function (message, username) {
+                $("#messageContainer").append("<p>"+ username+ " " + message.text + "</p>");
+            });
+            $(window).on("beforeunload", function () {
+                connection.stop();
+            });
+        });
+    </script>
+</body>
+</html>

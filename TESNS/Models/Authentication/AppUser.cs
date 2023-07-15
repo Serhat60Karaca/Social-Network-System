@@ -13,6 +13,8 @@ namespace TESNS.Models.Authentication
         public string? ProfilePhoto { get; set; }
         public bool IsEmailConfirmed { get; set; }
         public string? CoverPhoto { get; set; }
+        public string? ConnId { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
         
     }
 }

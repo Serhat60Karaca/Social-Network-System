@@ -23,6 +23,21 @@ namespace TESNS.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AppUserMessage", b =>
+                {
+                    b.Property<int>("MessagesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("MessagesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AppUserMessage");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -177,6 +192,9 @@ namespace TESNS.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConnId")
                         .HasColumnType("text");
 
                     b.Property<string>("CoverPhoto")
@@ -371,6 +389,32 @@ namespace TESNS.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("TESNS.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("SendAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("TESNS.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -445,6 +489,21 @@ namespace TESNS.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserInteractions");
+                });
+
+            modelBuilder.Entity("AppUserMessage", b =>
+                {
+                    b.HasOne("TESNS.Models.Message", null)
+                        .WithMany()
+                        .HasForeignKey("MessagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TESNS.Models.Authentication.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
