@@ -1,0 +1,3 @@
+# Social-Network-System
+Social Network System Project with ASP .Net Core MVC 
+  	The purpose of Social Networking System (SNS) is to provide users to share their thoughts by posting them and let other users to like, comment and share these thoughts. Users also will be able to attach appropriate images to the posts and comments they shared on the platform. Provide users to enjoy together playing browser based games. Platform will bring people together who are interested in different topic such as movies, sports, politics etc. by creating communities on the platform and managing them. Users may follow other users they want. 
