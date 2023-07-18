@@ -145,7 +145,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" asp-action="Chat" asp-controller="Message">
                                     <span style="display: flex; align-items: center;">
                                         <i style="font-size:25px" class="bi bi-chat"></i>
                                     </span>
@@ -270,13 +270,13 @@
     <div class="container-fluid" id="boddiv">
         <div class="row" style="height: auto; padding-top:10px;">
             <div class="col-3 d-flex justify-content-center" style="border-right: solid gray;border-width:1px;">
-                Here will be about bout User
+                
             </div>
             <div class="col-6 d-flex align-items-center justify-content-center">
                 @RenderBody()
             </div>
             <div class="col-3 d-flex justify-content-center" style="border-left: solid gray;border-width:1px;">
-                Community and User Suggesstions will be here
+                
                 </div>
         </div>
     </div>
