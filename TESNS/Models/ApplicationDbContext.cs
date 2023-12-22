@@ -15,9 +15,9 @@ namespace TESNS.Models
             var csb = new NpgsqlConnectionStringBuilder
             {
                 Host = "localhost",
-                Database = "TESNS",
+                Database = "SNSREAL",
                 Username = "postgres",
-                Password = "tokatspor",
+                Password = "82542826",
                 Port = 5432,
                 KeepAlive = 3000
             };
