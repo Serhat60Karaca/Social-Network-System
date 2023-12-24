@@ -4,7 +4,7 @@ namespace TESNS.Repositories
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<AppUser>> GetAllUsers();
+        Task<List<AppUser>> GetAllUsers();
         Task<AppUser> GetUserById(int id);
         bool Add(AppUser user);
         bool Update(AppUser user);

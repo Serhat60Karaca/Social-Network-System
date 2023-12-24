@@ -2,7 +2,7 @@
 using TESNS.Models;
 using TESNS.Models.Authentication;
 
-namespace TESNS.Repositories.concretes
+namespace TESNS.Repositories.Concrete
 {
     public class UserRepository : IUserRepository
     {
@@ -22,7 +22,7 @@ namespace TESNS.Repositories.concretes
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<AppUser>> GetAllUsers()
+        public async Task<List<AppUser>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
         }

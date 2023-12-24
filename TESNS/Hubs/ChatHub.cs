@@ -1,11 +1,8 @@
-﻿using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
-using System.Text.RegularExpressions;
 
 using TESNS.Models;
 using TESNS.Models.Authentication;
-using TESNS.ViewModels;
 
 namespace TESNS.Hubs
 {
@@ -22,19 +19,20 @@ namespace TESNS.Hubs
 
         public void SendMessageToUser(string userId, string message, string sendid)
         {
+            Message mssg = new Message()
+            {
+                SenderId = Int16.Parse(sendid),
+                ReceiverId = Int16.Parse(userId),
+                Text = message,
+                SendAt = DateTime.Now.ToUniversalTime(),
+            };
+            _context.Messages.Add(mssg);
+            _context.SaveChanges();
+            
             if (userConnections.ContainsKey(userId))
             {
                 string connectionId = userConnections[userId];
-
-                Message mssg = new Message()
-                {
-                    SenderId = Int16.Parse(sendid),
-                    ReceiverId = Int16.Parse(userId),
-                    Text = message,
-                    SendAt = DateTime.Now.ToUniversalTime(),
-                };
-                _context.Messages.Add(mssg);
-                _context.SaveChanges();
+                
                 var sender = _context.Users.FirstOrDefault(u => u.Id == Int16.Parse(sendid));
                 string username = sender.UserName;
                 Clients.Client(connectionId).SendAsync("ReceiveMessage", mssg.Text, username);
