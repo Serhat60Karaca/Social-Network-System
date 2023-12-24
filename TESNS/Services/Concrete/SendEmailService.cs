@@ -34,7 +34,7 @@ namespace TESNS.Services.Concrete
             mimeMessage.Subject = "Your Smiley Code";
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.gmail.com", 587, false);
-            client.Authenticate("emirdeveci55@gmail.com", "glog glog fış");
+            client.Authenticate("emirdeveci55@gmail.com", "pvqqmckeejfvppnq");
             client.Send(mimeMessage);
             client.Disconnect(true);
         }

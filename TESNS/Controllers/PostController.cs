@@ -9,6 +9,7 @@ using TESNS.Services;
 using TESNS.Repositories;
 using System.Reflection.Metadata;
 using TESNS.Repositories.Concrete;
+using Org.BouncyCastle.Bcpg;
 
 namespace TESNS.Controllers
 {
@@ -81,7 +82,6 @@ namespace TESNS.Controllers
            
             Post newPost = new Post()
             {
-                
                 Header = postVM.Header,
                 Text = postVM.Text,
                 //ImagePath = result.Url.ToString(),
@@ -194,6 +194,44 @@ namespace TESNS.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpPost]
+        public async Task<IActionResult> PostLike(int id)
+        {
+            try
+            {
+                var post = await _context.Posts.FindAsync(id);
+                if (post == null) return Json(new { isSuccess = false });
+                var currUser = await _userManager.GetUserAsync(User);
+                var liked = await _context.Likes.FirstOrDefaultAsync(x => x.UserId == currUser.Id && x.PostId == post.Id);
+                if (liked != null)
+                {
+                    _context.Likes.Remove(liked);
+                    post.LikeCount -= 1;
+                    _context.Posts.Update(post);
+                    await _context.SaveChangesAsync();                   
+                    return Json(new { isSuccess = true, Message = "Post Unliked !!", Like = post.LikeCount });
+                }
+                Like like = new Like()
+                {
+                    PostId = id,
+                    UserId = currUser.Id,
+                    Post = post,
+                    AppUser = currUser
+                };
+                _context.Likes.Add(like);
+                post.LikeCount += 1;
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+                
 
+                var result = new { isSuccess = true, Message = "Post Liked !!", Like = post.LikeCount };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isSuccess = false,Message = ex.Message });
+            }
+            
+        }
     }
 }

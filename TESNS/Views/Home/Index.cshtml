@@ -12,9 +12,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-
-
 <div id="user-content" style="margin:0px;">
 
      @if (SignInManager.IsSignedIn(User)) {
@@ -136,8 +133,8 @@
 
             <div class="feedback" style="display: flex; justify-content: center; align-items: center;">
                 <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
-                    <a style="btn btn-primary;text-decoration: none;color: #888;">Like</a>
-                    <span>@item.LikeCount <i class="bi bi-heart-fill"></i></span>
+                    <a id="likeBtn" href="javascript:likeFunc(@item.Id);" style="btn btn-primary;text-decoration: none;color: #888;">Like</a>
+                    <span><span id="likeCount">@item.LikeCount </span><i class="bi bi-heart-fill"></i></span>
                 </div>
                 <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
                     <a style="btn btn-primary;text-decoration: none;color: #888;" asp-controller="Post" asp-action="GetPost" asp-route-id="@item.Id">Comment</a>
@@ -155,3 +152,21 @@
     }
 </div>
 
+<script>
+    function likeFunc(postId) {
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '/Post/PostLike',
+            data: {id : postId},
+            success: function (result) {
+                debugger;
+                $("#likeCount").html(result.like);
+            },
+            error: function (error) {
+                debugger;
+                console.error('POST isteği başarısız. Hata:', error);
+            }
+        });
+    }
+</script>

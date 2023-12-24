@@ -7,7 +7,6 @@ using System;
 using TESNS.Services;
 using TESNS.Helpers;
 using TESNS.Repositories;
-using TESNS.Repositories.concretes;
 using TESNS.Services.Concrete;
 using TESNS.Repositories.Concrete;
 using TESNS.Data;

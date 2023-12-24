@@ -15,6 +15,7 @@ namespace TESNS.Models.Authentication
         public string? CoverPhoto { get; set; }
         public string? ConnId { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
+        public ICollection<Like>? Likes { get; set; }
         
     }
 }
