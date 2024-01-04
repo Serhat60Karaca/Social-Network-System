@@ -4,35 +4,45 @@
     ViewData["Title"] = "CreateCommunity";
    //Layout = null;
 }
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateCommunity" enctype="multipart/form-data">
+<div class="row" style="margin-right:30px" >
+    <div class="col-md-12 offset-md-1">
+        <form asp-action="CreateCommunity" enctype="multipart/form-data" class="mt-4 p-3 rounded bg-light">
+            <h2 class="text-center mb-4">Create Community</h2>
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo"  type="file" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Logo" class="form-label"></label>
+                <input asp-for="Logo" type="file" class="form-control" />
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
     </div>
+    <div class="text-center mt-3">
+        <a type="button" asp-controller="Community" asp-action="Index" class="btn btn-primary" style="  margin-top:20px;margin-bottom:20px;margin-left:100px;">Back to List</a>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

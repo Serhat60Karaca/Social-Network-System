@@ -134,7 +134,7 @@
             <div class="feedback" style="display: flex; justify-content: center; align-items: center;">
                 <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
                     <a id="likeBtn" href="javascript:likeFunc(@item.Id);" style="btn btn-primary;text-decoration: none;color: #888;">Like</a>
-                    <span><span id="likeCount">@item.LikeCount </span><i class="bi bi-heart-fill"></i></span>
+                    <span id="likeCount_@item.Id">@item.LikeCount </span><span><i class="bi bi-heart-fill"></i></span>
                 </div>
                 <div style="border: 1px solid;border-radius: 5px;margin-left: 10px;padding: 7px 10px 7px 10px;">
                     <a style="btn btn-primary;text-decoration: none;color: #888;" asp-controller="Post" asp-action="GetPost" asp-route-id="@item.Id">Comment</a>
@@ -161,7 +161,7 @@
             data: {id : postId},
             success: function (result) {
                 debugger;
-                $("#likeCount").html(result.like);
+                $("#likeCount_"+postId).html(result.like);
             },
             error: function (error) {
                 debugger;

@@ -110,6 +110,7 @@ namespace TESNS.Controllers
             if (user != null)
             {
                 user.IsEmailConfirmed = true;
+                _context.Update(user);
                 _context.SaveChanges();
                 return View("Login");
             }

@@ -14,7 +14,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     overflow: hidden;
-    background: #222222;
+    background: -webkit-linear-gradient(bottom, #0250c5, #d43f8d);
 }
 
 ::selection {

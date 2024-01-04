@@ -1,17 +1,27 @@
 ﻿@model IEnumerable<CommunityUser>
 @inject ApplicationDbContext _context
 
-@{
-    Layout = null;
-}
 
-@foreach(var item in Model)
+<div style=" margin-bottom:500px">
+@foreach (var item in Model)
 {
     var user = _context.Users.FirstOrDefault(i => i.Id == item.UserId);
-    
-    
-   <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;image-rendering:optimizeQuality;" src="@user.ProfilePhoto" alt="Profile Image" width="45" height="45">
-   <a asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@user.Id">@user.UserName</a>
-     
-    
+
+
+    <img style="border: solid; border-radius: 50%; border-width: 0.5px; margin-right: 10px;margin-top: 10px; image-rendering:optimizeQuality;" src="@user.ProfilePhoto" alt="Profile Image" width="45" height="45">
+    <a asp-action="ProfileDetail" asp-controller="Profile" asp-route-id="@user.Id" style=" font-family: 'Roboto', sans-serif;margin-top:10px">@user.UserName</a>
+
+
 }
+</div>
+<style>
+    #user {
+        text-decoration: none;
+        color: white;
+        margin-right: 7px;
+    }
+
+        #user:hover {
+            color: crimson;
+        }
+</style>

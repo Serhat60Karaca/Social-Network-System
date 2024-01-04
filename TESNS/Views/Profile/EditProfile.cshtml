@@ -13,9 +13,9 @@
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="@currentUser.ProfilePhoto"><span class="font-weight-bold">@currentUser.UserName</span><span class="text-black-50">@currentUser.Email</span><span> </span></div>
         </div>
         <div class="form-group">
-            <h5 style="margin-bottom:6px;">Cover Photo</h5>
+            <@*h5 style="margin-bottom:6px;">Cover Photo</h5>
             <input asp-for="CoverPhoto" value="https://res.cloudinary.com/daw0gahvl/image/upload/v1687712292/samples/balloons.jpg" type="file" class="form-control" />
-            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            <span asp-validation-for="CoverPhoto" class="text-danger"></span>*@
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
